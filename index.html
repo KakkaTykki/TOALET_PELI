@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Pirate Adventure – Sharks &amp; Pirates</title>
+<title>Toilet Invasion – 3D Shooter</title>
 <style>
-:root{color-scheme:dark;--bg:#0a0a14;--fg:#f2f2ff;--panel:rgba(14,14,30,.92);--acc:#ffd24a;--acc2:#ff5a3c;--mut:#8a8fb0;--line:#2c2c50;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{color-scheme:dark;--bg:#0a0a14;--fg:#f2f2ff;--panel:rgba(14,14,30,.92);--acc:#39ff88;--acc2:#ff2d95;--mut:#8a8fb0;--line:#2c2c50;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box}html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:"Trebuchet MS",system-ui,sans-serif;overflow:hidden}
 #c{position:fixed;inset:0}#c canvas{display:block}
 .hud{position:fixed;pointer-events:none;font-weight:700;text-shadow:0 2px 4px #000}
@@ -30,11 +30,12 @@ kbd{background:#222244;border-radius:4px;padding:1px 6px}
 </style></head><body>
 <div id="c"></div>
 <div class="hud" id="vig"></div><div class="hud" id="cross"></div><div class="hud" id="ban"></div>
+<div class="hud" id="qt" style="top:44px;left:14px;font-size:15px;color:var(--acc)"></div>
 <div class="hud" id="top"><div id="wv">Wave 1</div><div id="sc">Score 0</div><div id="co">Coins 0</div></div>
 <div class="hud" id="bot"><div><div class="bar"><div id="hpf"></div></div><div id="hpt">100</div></div><div id="gn">Pistol</div></div>
 
 <div class="ov" id="menu" style="display:flex"><div class="box">
-<h1>PIRATE ADVENTURE <small style="font-size:14px;color:var(--mut)">v3.0</small></h1><p>LOBBY · Sharks in the shallows, pirates on the shore.</p>
+<h1>TOILET INVASION <small style="font-size:14px;color:var(--mut)">v4.0</small></h1><p>LOBBY · The toilets are singing again. Blast them all.</p>
 <div class="two"><div>
 <input id="nm" maxlength="12" placeholder="Your name"><br>
 <button class="go" id="play">PLAY</button><button id="shopb">SHOP</button><button id="casb">CASINO</button><button id="logb">PÄIVITYKSET</button><button id="setb">SETTINGS</button>
@@ -48,12 +49,20 @@ kbd{background:#222244;border-radius:4px;padding:1px 6px}
 <div class="grid" id="sg"></div>
 <p><button class="go" id="shopx">Close</button></p></div></div>
 
-<div class="ov" id="over"><div class="box"><h1 style="color:var(--acc2)">YOU WALKED THE PLANK</h1>
+<div class="ov" id="over"><div class="box"><h1 style="color:var(--acc2)">YOU WERE FLUSHED</h1>
 <h2 id="fin"></h2><div class="two"><div><h2>Global top 10</h2><ol class="lb"></ol></div></div>
 <button class="go" id="again">PLAY AGAIN</button><button id="shop2">SHOP</button><button id="tomenu">LOBBY</button></div></div>
 
 <div class="ov" id="log"><div class="box" lang="fi" style="text-align:left">
 <h2>PÄIVITYSLOKI</h2>
+<h3>v4.0 – Suuri karttapäivitys</h3>
+<ul><li>Takaisin Skibidi-vessateemaan</li>
+<li>Valtava uusi kartta, ja aallot jahtaavat sinua pitkin karttaa</li>
+<li>Tehtävät: tapa vihollisia, kerää kultaisia pönttöjä ja tee päänlaukauksia</li>
+<li>Pomohuoneet: kolme hohtavaa portaalia (E-näppäin), jättipomot ja valtavat palkinnot: kolikot, pysyvä vahinkobonus ja yksinoikeudella oma skini</li>
+<li>16 uutta skiniä, joista 3 saa vain pomohuoneista</li>
+<li>Tulostaulu korjattu: laite tunnistetaan, tilikoodi, palautus toisella laitteella ja pilvitallennus</li>
+<li>Asetukset: näkökenttä (FOV), ruudun tärinä, Y-akselin käännös ja ohjaimien ohje</li></ul>
 <h3>v3.0 – Merirosvoseikkailu</h3>
 <ul><li>Uusi teema: haikalat ja merirosvot, uusi saari, palmuja ja laiva</li>
 <li>Aaltojärjestelmä poistettu: nyt on jatkuva seikkailu, jossa vihollisia ilmestyy koko ajan</li>
@@ -78,6 +87,10 @@ kbd{background:#222244;border-radius:4px;padding:1px 6px}
 <div class="ov" id="set"><div class="box"><h2>SETTINGS</h2>
 <p>Volume<br><input type="range" id="vol" min="0" max="1" step=".05"></p>
 <p>Mouse sensitivity<br><input type="range" id="sens" min=".3" max="2" step=".1"></p>
+<p>Field of view<br><input type="range" id="fov" min="60" max="100" step="1"></p>
+<p><label><input type="checkbox" id="shk"> Screen shake</label> <label><input type="checkbox" id="inv"> Invert Y</label></p>
+<details><summary>Controls</summary><p><kbd>WASD</kbd> move · <kbd>Mouse</kbd> aim · <kbd>Click</kbd> shoot (hold for auto)<br><kbd>1-6</kbd> switch guns · <kbd>Shift</kbd> sprint · <kbd>B</kbd> shop · <kbd>Esc</kbd> pause<br><kbd>E</kbd> enter a boss portal (glowing rings on the map)</p></details>
+<details><summary>Account (saves your progress)</summary><p>Your account code: <b id="acc"></b> <button id="cpy">Copy</button><br>Use it on another device:<br><input id="rst" placeholder="Paste code"><button id="rstb">Restore</button></p><p id="accm"></p></details>
 <button class="go" id="setx">Done</button></div></div>
 <div class="ov" id="cas"><div class="box"><h2>CASINO — <span id="ccoin"></span> coins</h2>
 <p>Play money only: coins you earn in the game, no real money.</p>
@@ -85,60 +98,74 @@ kbd{background:#222244;border-radius:4px;padding:1px 6px}
 <p>Bet: <button data-b="10">10</button><button data-b="50">50</button><button data-b="100">100</button><button data-b="500">500</button> <b id="bt">10</b></p>
 <button class="go" id="spin">SPIN</button>
 <p>Coin flip, double or nothing:</p><button id="fh">Heads</button><button id="ft">Tails</button>
-<h3 id="cmsg">Good luck, matey!</h3><button id="casx">Back to lobby</button></div></div>
+<h3 id="cmsg">Good luck!</h3><button id="casx">Back to lobby</button></div></div>
 <div class="ov" id="pause"><div class="box"><h2>Paused</h2><p>Click to resume</p><button class="go" id="res">RESUME</button><button id="shop3">SHOP</button><button id="tolobby">LOBBY</button></div></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 const $=id=>document.getElementById(id),R=Math.random;
-let save={coins:0,best:0,guns:{pistol:1},skins:{classic:1},skin:'classic',hp:0,dmg:0,name:'',gid:'',vol:.5,sens:1};
+let save={coins:0,best:0,guns:{pistol:1},skins:{classic:1},skin:'classic',hp:0,dmg:0,name:'',gid:'',vol:.5,sens:1,fov:75,shk:1,inv:0};
 try{Object.assign(save,JSON.parse(localStorage.getItem('ti')||'{}'))}catch(e){}
 if(!save.gid)save.gid='g'+R().toString(36).slice(2,10);
-const persist=()=>{try{localStorage.setItem('ti',JSON.stringify(save))}catch(e){}};
+let lbMsg='',ct=0;const persist=()=>{try{localStorage.setItem('ti',JSON.stringify(save))}catch(e){}if(!ct)ct=setTimeout(()=>{ct=0;submit()},15000)};
 $('nm').value=save.name;
 
 // ---------- data ----------
 const GUNS={
- pistol:{n:'Flintlock',d:1.2,rate:.32,pel:1,sp:.006,cost:0,auto:0,len:.5},
- shotgun:{n:'Blunderbuss',d:.9,rate:.8,pel:9,sp:.09,cost:300,auto:0,len:.7},
- smg:{n:'Rapid Pistols',d:.6,rate:.085,pel:1,sp:.035,cost:700,auto:1,len:.6},
- rifle:{n:'Musket',d:1.6,rate:.16,pel:1,sp:.012,cost:1300,auto:1,len:.9},
- minigun:{n:'Swivel Gun',d:.8,rate:.04,pel:1,sp:.06,cost:3000,auto:1,len:1},
- railgun:{n:'Cannon',d:9,rate:1.05,pel:1,sp:0,cost:5000,auto:0,len:1.1,pierce:1}};
+ pistol:{n:'Pistol',d:1.2,rate:.32,pel:1,sp:.006,cost:0,auto:0,len:.5},
+ shotgun:{n:'Shotgun',d:.9,rate:.8,pel:9,sp:.09,cost:300,auto:0,len:.7},
+ smg:{n:'SMG',d:.6,rate:.085,pel:1,sp:.035,cost:700,auto:1,len:.6},
+ rifle:{n:'Assault Rifle',d:1.6,rate:.16,pel:1,sp:.012,cost:1300,auto:1,len:.9},
+ minigun:{n:'Minigun',d:.8,rate:.04,pel:1,sp:.06,cost:3000,auto:1,len:1},
+ railgun:{n:'Railgun',d:9,rate:1.05,pel:1,sp:0,cost:5000,auto:0,len:1.1,pierce:1}};
 const GK=Object.keys(GUNS);
 const SKINS=[
- {id:'classic',n:'Classic Steel',c:0x888888,cost:0},{id:'white',n:'Bone White',c:0xffffff,cost:200},
- {id:'camo',n:'Seaweed',c:0x4b5d2a,cost:300},{id:'gold',n:'Gold',c:0xffc400,e:0x332200,cost:500},
+ {id:'classic',n:'Classic Steel',c:0x888888,cost:0},{id:'white',n:'Porcelain',c:0xffffff,cost:200},
+ {id:'camo',n:'Camo',c:0x4b5d2a,cost:300},{id:'gold',n:'Gold',c:0xffc400,e:0x332200,cost:500},
  {id:'pink',n:'Hot Pink',c:0xff2d95,cost:500},{id:'ice',n:'Ice Blue',c:0x7fe9ff,cost:600},
  {id:'blood',n:'Blood Red',c:0x8b0000,cost:600},{id:'green',n:'Neon Green',c:0x39ff14,e:0x0a4a00,cost:800},
- {id:'lava',n:'Lava',c:0xff4500,e:0x661a00,cost:900},{id:'void',n:'Cursed Purple',c:0x6a00ff,e:0x200066,cost:1000},
- {id:'chrome',n:'Silver',c:0xe8e8f0,e:0x222233,cost:1200},{id:'cyber',n:'Mermaid Teal',c:0x00ffe1,e:0x004a44,cost:1500},
- {id:'rainbow',n:'Rainbow',c:0xff0000,e:0x222222,cost:3000,rb:1}];
+ {id:'lava',n:'Lava',c:0xff4500,e:0x661a00,cost:900},{id:'void',n:'Void Purple',c:0x6a00ff,e:0x200066,cost:1000},
+ {id:'chrome',n:'Chrome',c:0xe8e8f0,e:0x222233,cost:1200},{id:'cyber',n:'Cyber Cyan',c:0x00ffe1,e:0x004a44,cost:1500},
+ {id:'rainbow',n:'Rainbow',c:0xff0000,e:0x222222,cost:3000,rb:1},
+ {id:'sunset',n:'Sunset',c:0xff8c42,e:0x331a00,cost:700},{id:'ocean',n:'Deep Ocean',c:0x1e90ff,e:0x001a33,cost:700},{id:'grape',n:'Grape',c:0x8e44ad,cost:600},
+ {id:'mint',n:'Mint',c:0x98ffcc,cost:600},{id:'gum',n:'Bubblegum',c:0xffb6e1,cost:500},{id:'carbon',n:'Carbon',c:0x222222,e:0x050505,cost:800},
+ {id:'toxic',n:'Toxic Waste',c:0xb6ff00,e:0x2a3300,cost:1100},{id:'emerald',n:'Emerald',c:0x00c853,e:0x003d14,cost:1800},{id:'ruby',n:'Ruby',c:0xe0115f,e:0x40051c,cost:1800},
+ {id:'obs',n:'Obsidian',c:0x1a0a2a,e:0x330066,cost:2000},{id:'diamond',n:'Diamond',c:0xb9f2ff,e:0x2a4a55,cost:5000},
+ {id:'galaxy',n:'Galaxy',c:0x6633ff,e:0x111133,cost:3500,rb:2},{id:'fire',n:'Inferno',c:0xff4500,e:0x441100,cost:3500,rb:3},
+ {id:'titan',n:'Titan Blue',c:0x6aa0ff,e:0x102244,ex:1,rb:2},{id:'plasma',n:'Plasma Queen',c:0xff5599,e:0x44112a,ex:1,rb:1},{id:'kingskin',n:'Flush King Gold',c:0xffd700,e:0x554400,ex:1,rb:3}];
 const T={
- grunt:{col:0xb03a2e,s:1,hp:3,sp:3,dmg:8,pts:10},
- runner:{shark:1,col:0x6f8fa8,s:.8,hp:2,sp:6.2,dmg:6,pts:15},
- spitter:{col:0x2e4a7a,s:1,hp:4,sp:2.6,dmg:10,pts:25,rng:11},
- brute:{col:0x4a3a2a,s:1.7,hp:14,sp:2,dmg:22,pts:60},
- boss:{col:0x8b1a1a,s:3,hp:90,sp:2.2,dmg:30,pts:400},
- exploder:{col:0x3a3a3a,s:.9,hp:3,sp:4.2,dmg:0,pts:30,boom:1},
- splitter:{shark:1,col:0x3b6e8f,s:1.4,hp:6,sp:2.8,dmg:10,pts:35,split:1},
- mini:{shark:1,col:0x7fb7d6,s:.6,hp:1.5,sp:5,dmg:5,pts:8}};
+ grunt:{col:0xf2f2f2,s:1,hp:3,sp:3,dmg:8,pts:10},
+ runner:{col:0x7fe8ff,s:.7,hp:2,sp:6.2,dmg:6,pts:15},
+ spitter:{col:0x9cff6a,s:1,hp:4,sp:2.6,dmg:10,pts:25,rng:11},
+ brute:{col:0xd98a8a,s:1.7,hp:14,sp:2,dmg:22,pts:60},
+ boss:{col:0xffd24a,s:3,hp:90,sp:2.2,dmg:30,pts:400},
+ exploder:{col:0xff6a3a,s:.9,hp:3,sp:4.2,dmg:0,pts:30,boom:1},
+ splitter:{col:0xc08aff,s:1.2,hp:6,sp:2.8,dmg:10,pts:35,split:1},
+ mini:{col:0xd9b8ff,s:.55,hp:1.5,sp:5,dmg:5,pts:8},
+ titan:{col:0x6aa0ff,s:3.6,hp:220,sp:2.6,dmg:35,pts:1000,room:1},
+ plunger:{col:0xff5599,s:3,hp:160,sp:2,dmg:25,pts:1200,rng:13,cdv:.6,room:1},
+ king:{col:0xffd700,s:3.8,hp:320,sp:2.4,dmg:40,pts:2000,sum:1,room:1}};
 
 // ---------- scene ----------
-const scene=new THREE.Scene();scene.background=new THREE.Color(0x7ad0ff);scene.fog=new THREE.Fog(0x7ad0ff,14,70);
-const cam=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,100);cam.rotation.order='YXZ';scene.add(cam);
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x0a0a14);scene.fog=new THREE.Fog(0x0a0a14,10,60);
+const cam=new THREE.PerspectiveCamera(save.fov||75,innerWidth/innerHeight,.1,100);cam.rotation.order='YXZ';scene.add(cam);
 const ren=new THREE.WebGLRenderer({antialias:true});ren.setPixelRatio(Math.min(devicePixelRatio,2));ren.setSize(innerWidth,innerHeight);$('c').appendChild(ren.domElement);
 scene.add(new THREE.HemisphereLight(0x99aaff,0x331133,1));
 cam.add(new THREE.PointLight(0xffffff,.7,30));
-const floor=new THREE.Mesh(new THREE.CircleGeometry(20.5,40),new THREE.MeshLambertMaterial({color:0xe3c882}));floor.rotation.x=-Math.PI/2;scene.add(floor);
-const sea=new THREE.Mesh(new THREE.PlaneGeometry(300,300),new THREE.MeshLambertMaterial({color:0x1e8fd5}));sea.rotation.x=-Math.PI/2;sea.position.y=-.1;scene.add(sea);
-const PIL=[[-8,-8],[8,-8],[-8,8],[8,8],[0,-13],[0,13],[-14,0],[14,0],[0,0]].map(([x,z])=>({x,z,r:1.3}));
-PIL.forEach(p=>{const t=new THREE.Mesh(new THREE.CylinderGeometry(.35,.5,4,8),new THREE.MeshLambertMaterial({color:0x7a5230}));t.position.set(p.x,2,p.z);const l=new THREE.Mesh(new THREE.SphereGeometry(1.6,8,6),new THREE.MeshLambertMaterial({color:0x2f9e44}));l.scale.y=.45;l.position.set(p.x,4.2,p.z);scene.add(t,l)});
-const wd=c=>new THREE.MeshLambertMaterial({color:c,side:THREE.DoubleSide});
-const hull=new THREE.Mesh(new THREE.BoxGeometry(4,1.5,10),wd(0x6b4423)),mast=new THREE.Mesh(new THREE.CylinderGeometry(.15,.15,8,6),wd(0x4a2f17)),sail=new THREE.Mesh(new THREE.PlaneGeometry(4,5),wd(0xf5f0e0));
-hull.position.set(0,.2,-27);mast.position.set(0,4,-27);sail.position.set(0,5,-27);scene.add(hull,mast,sail);
-function push(o,r){PIL.forEach(p=>{const dx=o.x-p.x,dz=o.z-p.z,d=Math.hypot(dx,dz),m=p.r+r;if(d<m&&d>0){o.x=p.x+dx/d*m;o.z=p.z+dz/d*m}});const q=Math.hypot(o.x,o.z);if(q>19){o.x*=19/q;o.z*=19/q}}
-
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(82,82),new THREE.MeshLambertMaterial({color:0x1a1a2c}));floor.rotation.x=-Math.PI/2;scene.add(floor);
+scene.add(new THREE.GridHelper(80,40,0x39ff88,0x223355));
+const wallM=new THREE.MeshLambertMaterial({color:0x2a2a50,emissive:0x0a0a22});
+[[0,-40,80,0],[0,40,80,0],[-40,0,0,80],[40,0,0,80]].forEach(([x,z,w,d])=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w||1,5,d||1),wallM);m.position.set(x,2.5,z);scene.add(m)});
+const ROOMS=[{k:'titan',name:'Titan Toilet',x:-30,z:-30,rew:1500,skin:'titan',col:0x6aa0ff},{k:'plunger',name:'Plunger Queen',x:30,z:-30,rew:2500,skin:'plasma',col:0xff5599},{k:'king',name:'Golden Flush King',x:0,z:34,rew:4000,skin:'kingskin',col:0xffd700}];
+let sd=7;const rnd=()=>(sd=sd*16807%2147483647)/2147483647;
+const PIL=[];for(let i=0;i<40;i++){const a=rnd()*6.28,r=7+rnd()*30,x=Math.cos(a)*r,z=Math.sin(a)*r;if(!ROOMS.some(q=>Math.hypot(q.x-x,q.z-z)<5)&&Math.hypot(x,z-14)>4)PIL.push({x,z,r:1.3})}
+PIL.forEach(p=>{const m=new THREE.Mesh(new THREE.CylinderGeometry(1.1,1.1,4,10),new THREE.MeshLambertMaterial({color:0x3a2a55,emissive:0x1a0a33}));m.position.set(p.x,2,p.z);scene.add(m)});
+ROOMS.forEach(r=>{r.m=new THREE.Mesh(new THREE.TorusGeometry(1.4,.22,8,24),new THREE.MeshBasicMaterial({color:r.col}));r.m.position.set(r.x,1.7,r.z);scene.add(r.m)});
+const arC=new THREE.Mesh(new THREE.CircleGeometry(14.5,40),new THREE.MeshLambertMaterial({color:0x2a1040}));arC.rotation.x=-Math.PI/2;arC.position.set(200,.02,0);scene.add(arC);
+const arR=new THREE.Mesh(new THREE.RingGeometry(13.5,14.5,48),new THREE.MeshBasicMaterial({color:0xff2d95,side:THREE.DoubleSide}));arR.rotation.x=-Math.PI/2;arR.position.set(200,.05,0);scene.add(arR);
+const arL=new THREE.PointLight(0xff88ff,1.2,40);arL.position.set(200,7,0);scene.add(arL);
+let arena=0;
+function push(o,r){if(!arena)PIL.forEach(p=>{const dx=o.x-p.x,dz=o.z-p.z,d=Math.hypot(dx,dz),m=p.r+r;if(d<m&&d>0){o.x=p.x+dx/d*m;o.z=p.z+dz/d*m}});const cx=arena?200:0,rr=arena?13:38,dx=o.x-cx,q=Math.hypot(dx,o.z);if(q>rr){o.x=cx+dx*rr/q;o.z*=rr/q}}
 // ---------- gun model ----------
 const gunMat=new THREE.MeshLambertMaterial({color:0x888888});
 const gun=new THREE.Group(),gBody=new THREE.Mesh(new THREE.BoxGeometry(.1,.14,.5),gunMat),gBar=new THREE.Mesh(new THREE.BoxGeometry(.05,.05,.5),gunMat);
@@ -151,44 +178,51 @@ function applyGun(){const g=GUNS[cur];gBar.scale.z=g.len*2;gBar.position.z=-.1-g
 let AC;function beep(f,d,t='square',v=.05){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=t;o.frequency.value=f;g.gain.value=v*save.vol*2;g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+d)}catch(e){}}
 
 // ---------- state ----------
-let streak=0,streakT=0,shake=0,kills=0,capOn=false;const buffs={speed:0,dmg:0,shield:0};
+let streak=0,streakT=0,shake=0,kills=0,capOn=false,quest=null,qi=0,plungers=[],hudT=0,portNear=-1;const buffs={speed:0,dmg:0,shield:0};
 let state='menu',paused=false,cur='pistol',hp=100,maxHp=100,score=0,wave=0,toSpawn=[],spawnT=0,interT=0,nextShot=0,kick=0,yaw=0,pitch=0,time=0,bobT=0;
 const P={x:0,z:14},keys={};let enemies=[],orbs=[],parts=[],tracers=[],packs=[];
 const pGeo=new THREE.BoxGeometry(.12,.12,.12),eyeG=new THREE.SphereGeometry(.07,6,6),eyeM=new THREE.MeshBasicMaterial({color:0x111111});
 const bowlG=new THREE.CylinderGeometry(.55,.35,.7,12),tankG=new THREE.BoxGeometry(.8,.8,.35),headG=new THREE.SphereGeometry(.38,12,12);
 
 function banner(t,ms=1800){const b=$('ban');b.textContent=t;b.style.opacity=1;clearTimeout(b._t);b._t=setTimeout(()=>b.style.opacity=0,ms)}
-function hud(){$('wv').textContent='Voyage '+wave+' · '+(capOn?'Defeat the Captain!':kills+'/'+goal()+' to summon Captain');$('sc').textContent='Score '+score;$('co').textContent='Coins '+save.coins;$('hpf').style.width=Math.max(0,hp/maxHp*100)+'%';$('hpt').textContent=Math.ceil(Math.max(0,hp))+' / '+maxHp}
+function hud(){$('wv').textContent='Wave '+wave;$('qt').textContent=quest?'Quest: '+quest.t+' '+quest.g+'/'+quest.n+(quest.k==='plunger'&&plungers.length?' · nearest '+Math.round(Math.min(...plungers.map(m=>Math.hypot(m.position.x-P.x,m.position.z-P.z))))+'m':''):'';$('sc').textContent='Score '+score;$('co').textContent='Coins '+save.coins;$('hpf').style.width=Math.max(0,hp/maxHp*100)+'%';$('hpt').textContent=Math.ceil(Math.max(0,hp))+' / '+maxHp}
 
 function spawn(type,px,pz){
- const t=T[type],g=new THREE.Group(),m=new THREE.MeshLambertMaterial({color:t.col}),hm=new THREE.MeshLambertMaterial({color:t.shark?t.col:0xe8b88a});let head;
- if(t.shark){
-  const b=new THREE.Mesh(new THREE.SphereGeometry(.6,12,10),m);b.scale.set(.8,.7,1.6);b.position.y=.7;
-  const f=new THREE.Mesh(new THREE.ConeGeometry(.25,.7,4),m);f.position.set(0,1.45,-.2);
-  const tl=new THREE.Mesh(new THREE.ConeGeometry(.3,.7,4),m);tl.rotation.x=-Math.PI/2;tl.position.set(0,.8,-1.1);
-  head=new THREE.Mesh(new THREE.SphereGeometry(.34,10,10),hm);head.position.set(0,.9,.75);g.add(b,f,tl,head);
- }else{
-  const b=new THREE.Mesh(new THREE.BoxGeometry(.7,.75,.4),m);b.position.y=.38;
-  head=new THREE.Mesh(headG,hm);head.position.y=1.05;
-  const hat=new THREE.Mesh(new THREE.ConeGeometry(.45,.35,8),new THREE.MeshLambertMaterial({color:0x111111}));hat.position.y=.38;head.add(hat);
-  const sw=new THREE.Mesh(new THREE.BoxGeometry(.06,.06,.8),new THREE.MeshLambertMaterial({color:0xcccccc}));sw.position.set(.5,.6,.4);g.add(b,head,sw);
- }
- const e1=new THREE.Mesh(eyeG,eyeM),e2=e1.clone();e1.position.set(-.14,.06,.3);e2.position.set(.14,.06,.3);head.add(e1,e2);g.scale.setScalar(t.s);
- const a=R()*6.28,r=17,e={g,head,t,type,mats:[m,hm],x:px!==undefined?px:Math.cos(a)*r,z:pz!==undefined?pz:Math.sin(a)*r,hp:t.hp*(1+wave*(type==='boss'?.15:.07)),cd:0,fl:0,ph:R()*6};
+ const t=T[type],g=new THREE.Group(),m=new THREE.MeshLambertMaterial({color:t.col}),hm=new THREE.MeshLambertMaterial({color:0xe8b88a});
+ const bowl=new THREE.Mesh(bowlG,m);bowl.position.y=.35;const tank=new THREE.Mesh(tankG,m);tank.position.set(0,.9,-.5);
+ const head=new THREE.Mesh(headG,hm);head.position.y=1.05;
+ const e1=new THREE.Mesh(eyeG,eyeM),e2=e1.clone();e1.position.set(-.14,.06,.33);e2.position.set(.14,.06,.33);head.add(e1,e2);
+ g.add(bowl,tank,head);g.scale.setScalar(t.s);
+ const a=R()*6.28;let x=P.x+Math.cos(a)*24,z=P.z+Math.sin(a)*24;if(Math.hypot(x,z)>38){x=P.x-Math.cos(a)*24;z=P.z-Math.sin(a)*24}
+ const e={g,head,t,type,mats:[m,hm],x:px!==undefined?px:x,z:pz!==undefined?pz:z,hp:t.hp*(1+wave*(type==='boss'?.15:.07)),cd:0,fl:0,ph:R()*6};
  g.position.set(e.x,0,e.z);scene.add(g);enemies.push(e);
 }
-function spawnOne(){const pool=['grunt','grunt','runner'];if(wave>=2)pool.push('spitter');if(wave>=3)pool.push('exploder','runner');if(wave>=4)pool.push('brute');if(wave>=5)pool.push('splitter');spawn(pool[(R()*pool.length)|0])}
-function goal(){return 8+wave*4}
-function startWave(){wave++;kills=0;capOn=false;hp=Math.min(maxHp,hp+30);banner('VOYAGE '+wave+' — set sail!');hud()}
+function startWave(){
+ wave++;const n=4+wave*2,pool=['grunt','grunt'];toSpawn=[];
+ if(wave>=2)pool.push('runner','runner');if(wave>=3)pool.push('spitter','exploder');if(wave>=4)pool.push('brute');if(wave>=5)pool.push('splitter');
+ for(let i=0;i<n;i++)toSpawn.push(pool[(R()*pool.length)|0]);
+ if(wave%5===0)toSpawn.push('boss');
+ banner(wave%5===0?'BOSS WAVE '+wave+'!':'WAVE '+wave);hp=Math.min(maxHp,hp+20);hud();
+}
+function newQuest(){const k=['kill','plunger','head'][qi++%3];
+ quest=k==='kill'?{k,n:8+wave*3,g:0,r:150+wave*30,t:'Kill toilets'}:k==='plunger'?{k,n:4,g:0,r:250+wave*40,t:'Collect golden plungers'}:{k,n:5,g:0,r:200+wave*30,t:'Land headshots'};
+ if(k==='plunger')for(let i=0;i<4;i++){const m=new THREE.Mesh(new THREE.CylinderGeometry(.12,.12,.9,6),new THREE.MeshBasicMaterial({color:0xffd24a}));const a=R()*6.28,r=10+R()*26;m.position.set(Math.cos(a)*r,.6,Math.sin(a)*r);scene.add(m);plungers.push(m)}
+ hud()}
+function qprog(k){if(quest&&quest.k===k&&++quest.g>=quest.n){save.coins+=quest.r;banner('QUEST DONE! +'+quest.r+' coins',2200);beep(700,.2,'sine',.08);persist();newQuest()}hud()}
+function enterRoom(i){const r=ROOMS[i];enemies.forEach(o=>scene.remove(o.g));enemies=[];orbs.forEach(o=>scene.remove(o.m));orbs=[];arena=i+1;P.x=200;P.z=9;yaw=0;pitch=0;spawn(r.k,200,-4);banner('BOSS ROOM: '+r.name,2500)}
+function roomWin(){const r=ROOMS[arena-1];if(!r)return;const first=!save.skins[r.skin];save.coins+=r.rew;save.dmg++;score+=r.rew;
+ if(first){save.skins[r.skin]=1;save.skin=r.skin;applySkin()}hp=maxHp;buffs.dmg=30;buffs.shield=30;persist();
+ banner('BOSS DEFEATED! +'+r.rew+' coins, +1 damage'+(first?', NEW SKIN!':''),4000);
+ setTimeout(()=>{if(state!=='play')return;enemies.forEach(o=>scene.remove(o.g));enemies=[];orbs.forEach(o=>scene.remove(o.m));orbs=[];P.x=r.x;P.z=r.z+4;arena=0;hud()},3500)}
 function reset(){
  enemies.forEach(e=>scene.remove(e.g));orbs.forEach(o=>scene.remove(o.m));packs.forEach(p=>scene.remove(p.m));enemies=[];orbs=[];packs=[];
- streak=0;streakT=0;shake=0;buffs.speed=buffs.dmg=buffs.shield=0;maxHp=100+save.hp*25;hp=maxHp;score=0;wave=0;P.x=0;P.z=14;yaw=0;pitch=0;toSpawn=[];interT=0;applySkin();applyGun();startWave();state='play';paused=false;
+ arena=0;plungers.forEach(m=>scene.remove(m));plungers=[];qi=0;streak=0;streakT=0;shake=0;buffs.speed=buffs.dmg=buffs.shield=0;maxHp=100+save.hp*25;hp=maxHp;score=0;wave=0;P.x=0;P.z=14;yaw=0;pitch=0;toSpawn=[];interT=0;applySkin();applyGun();startWave();newQuest();state='play';paused=false;
 }
 function hurt(d){if(buffs.shield>0)d*=.3;shake=.2;hp-=d;$('vig').style.opacity=1;setTimeout(()=>$('vig').style.opacity=0,200);beep(110,.15,'sawtooth',.08);if(hp<=0&&state==='play')die();hud()}
 function burst(x,y,z,col,n){for(let i=0;i<n;i++){const m=new THREE.Mesh(pGeo,new THREE.MeshBasicMaterial({color:col}));m.position.set(x,y,z);scene.add(m);parts.push({m,vx:(R()-.5)*6,vy:R()*5,vz:(R()-.5)*6,l:.7})}}
 function killE(e){
  scene.remove(e.g);enemies.splice(enemies.indexOf(e),1);score+=e.t.pts;save.coins+=e.t.pts;persist();burst(e.x,1,e.z,e.t.col,10);beep(220,.12,'triangle',.07);
- if(e.type==='boss'){save.coins+=300+wave*100;score+=500;banner('CAPTAIN DEFEATED!',2200);setTimeout(()=>{if(state==='play')startWave()},2500)}else if(e.type!=='mini')kills++;
+ if(e.t.room)roomWin();else qprog('kill');
  streak++;streakT=3;if(streak%5===0){score+=streak*2;banner('KILL STREAK x'+streak,900)}
  if(e.t.boom){shake=.4;burst(e.x,1,e.z,0xff8800,25);beep(60,.3,'sawtooth',.1);if(Math.hypot(e.x-P.x,e.z-P.z)<4)hurt(25);enemies.forEach(o=>{if(Math.hypot(o.x-e.x,o.z-e.z)<4){o.hp-=6;o.fl=.1}})}
  if(e.t.split){spawn('mini',e.x+.6,e.z);spawn('mini',e.x-.6,e.z)}
@@ -208,7 +242,7 @@ function fire(){
   for(const e of enemies){const c=new THREE.Vector3(e.x,e.t.s*.9,e.z).sub(o),tca=c.dot(d);if(tca<0)continue;const d2=c.lengthSq()-tca*tca,r=.8*e.t.s;if(d2<r*r)hits.push({e,t:tca-Math.sqrt(r*r-d2)})}
   hits.sort((a,b)=>a.t-b.t);let end=30;
   const list=g.pierce?hits:hits.slice(0,1);
-  list.forEach(h=>{const hy=o.y+d.y*h.t,head=hy>h.e.t.s*1.15;h.e.hp-=dm*(head?2:1);h.e.fl=.08;end=h.t;if(head)beep(900,.05,'sine',.05);if(h.e.hp<=0)killE(h.e)});
+  list.forEach(h=>{const hy=o.y+d.y*h.t,head=hy>h.e.t.s*1.15;h.e.hp-=dm*(head?2:1);h.e.fl=.08;end=h.t;if(head){beep(900,.05,'sine',.05);qprog('head')}if(h.e.hp<=0)killE(h.e)});
   if(i===0&&g.pel===1||i<2){const mz=new THREE.Vector3(.28,-.26,-.9).applyMatrix4(cam.matrixWorld),to=o.clone().addScaledVector(d,end);
    const ln=new THREE.Line(new THREE.BufferGeometry().setFromPoints([mz,to]),new THREE.LineBasicMaterial({color:cur==='railgun'?0x00ffff:0xffee88}));scene.add(ln);tracers.push({ln,l:cur==='railgun'?.25:.05})}
  }
@@ -224,24 +258,30 @@ function update(dt){
  const s=Math.sin(yaw),c=Math.cos(yaw);P.x+=(fx*c+fz*s)*sp;P.z+=(-fx*s+fz*c)*sp;push(P,.5);
  if(fx||fz)bobT+=dt*10;
  cam.position.set(P.x,1.6+Math.sin(bobT)*.05,P.z);cam.rotation.y=yaw;cam.rotation.x=pitch;
- shake=Math.max(0,shake-dt);cam.position.x+=(R()-.5)*shake;cam.position.y+=(R()-.5)*shake;
+ shake=Math.max(0,shake-dt);cam.position.x+=(R()-.5)*shake*save.shk;cam.position.y+=(R()-.5)*shake*save.shk;
  streakT-=dt;if(streakT<=0)streak=0;
  for(const k in buffs)buffs[k]=Math.max(0,buffs[k]-dt);
  $('gn').textContent=GUNS[cur].n+(buffs.speed>0?' ⚡':'')+(buffs.dmg>0?' 💥':'')+(buffs.shield>0?' 🛡':'')+(streak>1?' · x'+streak:'');
  // gun
  if(mouseDown&&GUNS[cur].auto)fire();
  kick=Math.max(0,kick-dt*.6);gun.position.z=-.55+kick;gun.rotation.x=kick*.6;
- const sk=SKINS.find(k=>k.id===save.skin);if(sk&&sk.rb)gunMat.color.setHSL((time*.4)%1,1,.5);
- // endless spawning, Captain appears after enough kills
- spawnT-=dt;if(spawnT<=0){spawnT=Math.max(.7,2.4-wave*.2);if(enemies.length<5+wave*2)spawnOne()}
- if(!capOn&&kills>=goal()){capOn=true;spawn('boss');banner('THE CAPTAIN APPEARS!',3000)}
+ const sk=SKINS.find(k=>k.id===save.skin);if(sk&&sk.rb)gunMat.color.setHSL(sk.rb===1?(time*.4)%1:sk.rb===2?.72+Math.sin(time*2)*.08:.05+Math.abs(Math.sin(time*6))*.05,1,.5);
+ // waves chase you across the big map
+ if(!arena){
+  if(toSpawn.length){spawnT-=dt;if(spawnT<=0){spawn(toSpawn.shift());spawnT=Math.max(.25,.9-wave*.03)}}
+  else if(!enemies.length){interT+=dt;if(interT===dt)banner('Wave cleared! Do a quest or enter a boss portal',3500);if(interT>6){interT=0;startWave()}}
+ }
+ hudT-=dt;if(hudT<=0){hudT=.25;hud()}
+ ROOMS.forEach(r=>r.m.rotation.y+=dt*1.5);
+ portNear=-1;if(!arena)ROOMS.forEach((r,i)=>{if(Math.hypot(r.x-P.x,r.z-P.z)<2.6)portNear=i});if(portNear>=0)banner('Press E: '+ROOMS[portNear].name+' boss room',250);
+ plungers=plungers.filter(m=>{m.rotation.y+=dt*3;if(Math.hypot(m.position.x-P.x,m.position.z-P.z)<1.4){scene.remove(m);beep(900,.1,'sine',.06);qprog('plunger');return false}return true});
  // enemies
  enemies.filter(o=>o.hp<=0).forEach(killE);
  enemies.forEach(e=>{
   const dx=P.x-e.x,dz=P.z-e.z,d=Math.hypot(dx,dz)||1,t=e.t,stop=t.rng?t.rng:1.1*t.s+.6;
   if(d>stop){e.x+=dx/d*t.sp*dt;e.z+=dz/d*t.sp*dt}
-  e.cd-=dt;
-  if(t.rng){if(d<t.rng+3&&e.cd<=0){e.cd=1.8;const m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshBasicMaterial({color:0x88ff44}));m.position.set(e.x,1.2,e.z);scene.add(m);orbs.push({m,vx:dx/d*9,vz:dz/d*9,l:4,d:t.dmg})}}
+  e.cd-=dt;if(t.sum){e.c2=(e.c2===undefined?5:e.c2)-dt;if(e.c2<=0){e.c2=6;spawn('mini',e.x+1.5,e.z);spawn('mini',e.x-1.5,e.z)}}
+  if(t.rng){if(d<t.rng+3&&e.cd<=0){e.cd=t.cdv||1.8;const m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshBasicMaterial({color:0x88ff44}));m.position.set(e.x,1.2,e.z);scene.add(m);orbs.push({m,vx:dx/d*9,vz:dz/d*9,l:4,d:t.dmg})}}
   else if(d<=stop+.2&&e.cd<=0){e.cd=1;if(t.boom){killE(e);return}hurt(t.dmg)}
   enemies.forEach(o=>{if(o!==e){const ax=e.x-o.x,az=e.z-o.z,ad=Math.hypot(ax,az),mn=.8*(e.t.s+o.t.s);if(ad<mn&&ad>0){e.x+=ax/ad*dt*3;e.z+=az/ad*dt*3}}});
   push(e,.5*t.s);
@@ -258,31 +298,40 @@ function update(dt){
 }
 
 // ---------- leaderboard ----------
-function renderLB(rows){document.querySelectorAll('.lb').forEach(ol=>{ol.textContent='';if(!rows.length){const li=document.createElement('p');li.textContent='No scores yet — be the first!';ol.appendChild(li);return}
- rows.forEach(r=>{const li=document.createElement('li'),sp=document.createElement('span');li.textContent=(r.name||'Player')+' (V'+(r.wave||'?')+')';sp.textContent=r.score;li.appendChild(sp);ol.appendChild(li)})})}
+function renderLB(rows){document.querySelectorAll('.lb').forEach(ol=>{ol.textContent='';if(!rows.length){const li=document.createElement('p');li.textContent=lbMsg||'No scores yet — be the first!';ol.appendChild(li);return}
+ rows.forEach(r=>{const li=document.createElement('li'),sp=document.createElement('span');li.textContent=(r.name||'Player')+' (W'+(r.wave||'?')+')';sp.textContent=r.score;li.appendChild(sp);ol.appendChild(li)})})}
 renderLB(save.best?[{name:(save.name||'You')+' (local best)',score:save.best,wave:'-'}]:[]);
 // >>> PASTE YOUR SUPABASE VALUES HERE (see setup steps) <<<
 const SB_URL='YOUR_SUPABASE_URL',SB_KEY='YOUR_SUPABASE_ANON_KEY';
-const SB=SB_URL.startsWith('http'),H={apikey:SB_KEY,Authorization:'Bearer '+SB_KEY};
-async function loadLB(){if(!SB)return;try{const r=await fetch(SB_URL+'/rest/v1/scores?select=name,score,wave&order=score.desc&limit=10',{headers:H});if(r.ok)renderLB(await r.json())}catch(e){}}
-async function submit(){if(!SB||score<=0||score<save.best)return;try{await fetch(SB_URL+'/rest/v1/scores?on_conflict=id',{method:'POST',headers:{...H,'Content-Type':'application/json',Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify({id:save.gid,name:(save.name||'Player').slice(0,12),score,wave})});loadLB()}catch(e){}}
+const SB=SB_URL.startsWith('http'),H={apikey:SB_KEY,Authorization:'Bearer '+SB_KEY},API=SB_URL+'/rest/v1/scores';
+async function loadLB(){if(!SB){lbMsg='Leaderboard not set up yet';return renderLB([])}try{const r=await fetch(API+'?select=name,score,wave&order=score.desc&limit=10',{headers:H});if(!r.ok)throw 0;lbMsg='';renderLB(await r.json())}catch(e){lbMsg='Leaderboard offline';renderLB([])}}
+async function submit(){if(!SB)return;try{const o={...save};delete o.gid;
+ const r=await fetch(API+'?select=score,wave&id=eq.'+encodeURIComponent(save.gid),{headers:H}),old=r.ok?(await r.json())[0]:null;
+ const row={id:save.gid,name:(save.name||'Player').slice(0,12),score:Math.max(score,save.best,old?old.score:0),wave:old&&old.score>=score?old.wave:wave,data:JSON.stringify(o)};
+ await fetch(API+'?on_conflict=id',{method:'POST',headers:{...H,'Content-Type':'application/json',Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify(row)});loadLB()}catch(e){}}
+async function restore(code){code=(code||'').trim();if(!SB)return 'Leaderboard not set up yet';if(!code)return 'Paste your code first';
+ try{const r=await fetch(API+'?select=name,data&id=eq.'+encodeURIComponent(code),{headers:H}),j=r.ok?await r.json():[];if(!j.length)return 'Code not found';
+ Object.assign(save,JSON.parse(j[0].data||'{}'),{gid:code,name:j[0].name||save.name});try{localStorage.setItem('ti',JSON.stringify(save))}catch(e){}applySkin();applyGun();hud();$('nm').value=save.name;$('acc').textContent=code;return 'Account restored!'}catch(e){return 'Restore failed'}}
 loadLB();setInterval(loadLB,20000);
 
 // ---------- flow ----------
 function show(id){document.querySelectorAll('.ov').forEach(o=>o.style.display='none');if(id)$(id).style.display='flex'}
 function lock(){try{const p=ren.domElement.requestPointerLock();if(p&&p.catch)p.catch(()=>{})}catch(e){}}
 function die(){state='over';paused=true;document.exitPointerLock&&document.exitPointerLock();if(score>save.best)save.best=score;persist();submit();
- $('fin').textContent='Score '+score+' · Voyage '+wave;show('over')}
+ $('fin').textContent='Score '+score+' · Wave '+wave;show('over')}
 function begin(){save.name=($('nm').value||'Player').trim().slice(0,12);persist();show(null);reset();hud();lock();$('bst').textContent=''}
 $('logb').onclick=()=>show('log');$('logx').onclick=()=>show('menu');
-$('setb').onclick=()=>{$('vol').value=save.vol;$('sens').value=save.sens;show('set')};
+$('setb').onclick=()=>{$('vol').value=save.vol;$('sens').value=save.sens;$('fov').value=save.fov;$('shk').checked=!!save.shk;$('inv').checked=!!save.inv;$('acc').textContent=save.gid;$('accm').textContent='';show('set')};
+$('fov').oninput=e=>{save.fov=+e.target.value;cam.fov=save.fov;cam.updateProjectionMatrix()};$('shk').onchange=e=>save.shk=e.target.checked?1:0;$('inv').onchange=e=>save.inv=e.target.checked?1:0;
+$('cpy').onclick=()=>{try{navigator.clipboard.writeText(save.gid)}catch(e){}$('accm').textContent='Copied!'};
+$('rstb').onclick=async()=>{$('accm').textContent=await restore($('rst').value)};
 $('vol').oninput=e=>{save.vol=+e.target.value;beep(300,.1)};$('sens').oninput=e=>save.sens=+e.target.value;
 $('setx').onclick=()=>{persist();show('menu')};
-function toLobby(){if(state==='play'){if(score>save.best)save.best=score;persist();submit()}enemies.forEach(e=>scene.remove(e.g));enemies=[];orbs.forEach(o=>scene.remove(o.m));orbs=[];packs.forEach(p=>scene.remove(p.m));packs=[];state='menu';paused=false;$('bst').textContent='Your best: '+save.best+' · Coins: '+save.coins;show('menu')}
+function toLobby(){if(state==='play'){if(score>save.best)save.best=score;persist();submit()}enemies.forEach(e=>scene.remove(e.g));enemies=[];orbs.forEach(o=>scene.remove(o.m));orbs=[];packs.forEach(p=>scene.remove(p.m));packs=[];arena=0;plungers.forEach(m=>scene.remove(m));plungers=[];state='menu';paused=false;$('bst').textContent='Your best: '+save.best+' · Coins: '+save.coins;show('menu')}
 $('tomenu').onclick=toLobby;$('tolobby').onclick=toLobby;
-let bet=10,spinning=0;const SYM=['🦈','🏴‍☠️','💰','⚓','🦜','💎'];
+let bet=10,spinning=0;const SYM=['🚽','🧻','💰','🧼','🪠','💎'];
 const cm=t=>{$('cmsg').textContent=t;$('ccoin').textContent=save.coins;hud()};
-$('casb').onclick=()=>{cm('Good luck, matey!');show('cas')};$('casx').onclick=()=>show('menu');
+$('casb').onclick=()=>{cm('Good luck!');show('cas')};$('casx').onclick=()=>show('menu');
 document.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{bet=+b.dataset.b;$('bt').textContent=bet});
 $('spin').onclick=()=>{if(spinning)return;if(save.coins<bet)return cm('Not enough coins');save.coins-=bet;persist();spinning=1;let n=0;
  const iv=setInterval(()=>{$('reels').textContent=[0,1,2].map(()=>SYM[(R()*6)|0]).join(' ');beep(400+n*20,.04);
@@ -306,20 +355,20 @@ function item(name,desc,cost,own,eq,fn,col){const d=document.createElement('div'
 function renderShop(){const g=$('sg');g.textContent='';$('sco').textContent=save.coins;
  const buy=(c,fn)=>{if(save.coins<c){banner('Not enough coins',900);return}save.coins-=c;fn();persist();renderShop();hud()};
  if(tab==='g')GK.forEach(k=>{const G=GUNS[k],own=save.guns[k];g.appendChild(item(G.n,'Dmg '+G.d+' · '+(G.pel>1?G.pel+' pellets · ':'')+(G.auto?'auto':'semi')+(G.pierce?' · pierces':''),G.cost,own,cur===k&&own,()=>own?(cur=k,applyGun(),renderShop()):buy(G.cost,()=>{save.guns[k]=1;cur=k;applyGun()})))});
- if(tab==='s')SKINS.forEach(s=>g.appendChild(item(s.n,s.rb?'Animated':'Gun skin',s.cost,save.skins[s.id],save.skin===s.id,()=>save.skins[s.id]?(save.skin=s.id,applySkin(),persist(),renderShop()):buy(s.cost,()=>{save.skins[s.id]=1;save.skin=s.id;applySkin()}),s.rb?'linear-gradient(90deg,red,orange,yellow,lime,cyan,blue,magenta)':'#'+s.c.toString(16).padStart(6,'0'))));
+ if(tab==='s')SKINS.forEach(s=>g.appendChild(item(s.n,s.ex?'Boss room reward':s.rb?'Animated':'Gun skin',s.cost,save.skins[s.id],save.skin===s.id,()=>s.ex&&!save.skins[s.id]?banner('Beat the boss room to unlock',1500):save.skins[s.id]?(save.skin=s.id,applySkin(),persist(),renderShop()):buy(s.cost,()=>{save.skins[s.id]=1;save.skin=s.id;applySkin()}),s.rb?'linear-gradient(90deg,red,orange,yellow,lime,cyan,blue,magenta)':'#'+s.c.toString(16).padStart(6,'0'))));
  if(tab==='u'){[['hp','Max Health','+25 max HP',8,250],['dmg','Damage','+15% damage',10,300]].forEach(([k,n,ds,mx,base])=>{const lv=save[k],c=base*(lv+1);
   const d=item(n+' Lv '+lv,ds,c,0,lv>=mx,()=>buy(c,()=>{save[k]++;if(k==='hp'){maxHp=100+save.hp*25}}));if(lv>=mx)d.querySelector('button').textContent='Maxed';g.appendChild(d)})}
 }
 
 // ---------- input ----------
 let mouseDown=false;
-addEventListener('keydown',e=>{keys[e.code]=1;
+addEventListener('keydown',e=>{keys[e.code]=1;if(e.code==='KeyE'&&state==='play'&&!paused&&portNear>=0&&!arena)enterRoom(portNear);
  if(e.code==='KeyB'&&(state==='play')){if($('shop').style.display==='flex'){$('shopx').click()}else openShop('pause')}
  if(state==='play'&&!paused){const n=+e.key;if(n>=1&&n<=6&&save.guns[GK[n-1]]){cur=GK[n-1];applyGun()}}});
 addEventListener('keyup',e=>keys[e.code]=0);
 addEventListener('mousedown',e=>{if(e.button===0){mouseDown=true;if(state==='play'&&!paused&&document.pointerLockElement){fire()}}});
 addEventListener('mouseup',()=>mouseDown=false);
-addEventListener('mousemove',e=>{if(document.pointerLockElement===ren.domElement&&state==='play'&&!paused){yaw-=e.movementX*.0022*save.sens;pitch=Math.max(-1.4,Math.min(1.4,pitch-e.movementY*.0022*save.sens))}});
+addEventListener('mousemove',e=>{if(document.pointerLockElement===ren.domElement&&state==='play'&&!paused){yaw-=e.movementX*.0022*save.sens;pitch=Math.max(-1.4,Math.min(1.4,pitch-(save.inv?-1:1)*e.movementY*.0022*save.sens))}});
 document.addEventListener('pointerlockchange',()=>{if(!document.pointerLockElement&&state==='play'&&!paused&&$('shop').style.display!=='flex'){paused=true;show('pause')}});
 addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();ren.setSize(innerWidth,innerHeight)});
 
