@@ -70,7 +70,7 @@ kbd{background:#222244;border-radius:4px;padding:1px 6px}
 <button class="tile" id="logb"><b>📜 PÄIVITYKSET</b><i>Update log (Finnish)</i></button>
 <button class="tile" id="setb"><b>⚙️ SETTINGS</b><i>Audio, controls, backup</i></button>
 </div>
-<p class="keys"><kbd>WASD</kbd> move · <kbd>Mouse</kbd> aim · <kbd>Click</kbd> shoot · <kbd>1-9, 0, -</kbd> / <kbd>Wheel</kbd> guns · <kbd>R</kbd> reload · <kbd>G</kbd> grenade · <kbd>Q</kbd> bullet time · <kbd>Space</kbd> bhop/jump · <kbd>C</kbd> dash · <kbd>V</kbd> knife · <kbd>B</kbd> shop</p>
+<p class="keys"><kbd>WASD</kbd> move · <kbd>Mouse</kbd> aim · <kbd>Click</kbd> shoot · <kbd>1-9, 0, -</kbd> / <kbd>Wheel</kbd> guns · <kbd>R</kbd> reload · <kbd>G</kbd> grenade · <kbd>Q</kbd> bullet time · <kbd>Space</kbd> bhop/jump (knife only) · <kbd>C</kbd> dash · <kbd>V</kbd> knife · <kbd>B</kbd> shop</p>
 </div></div>
 
 <div class="ov" id="shop"><div class="box">
@@ -85,7 +85,7 @@ kbd{background:#222244;border-radius:4px;padding:1px 6px}
 
 <div class="ov" id="log"><div class="box" lang="fi" style="text-align:left">
 <h2>PÄIVITYSLOKI</h2>
-<h3>v14.0 – Bunny hop ja veitset</h3><ul><li>CS:GO-henkinen bunny hopping: pidä Space pohjassa ja liiku WASD-näppäimillä; ilmassa säilyy vauhti ja oikein ajoitetut hypyt kasvattavat nopeutta</li><li>V-näppäimellä veitsi esiin/piiloon, hiiren vasemmalla lähitaisteluhyökkäys</li><li>Kuusi veistä, joita voi ostaa ja varustaa kaupasta Coins → Knives</li></ul><h3>v13.0 – Moninpeli ja paljon lisää</h3>
+<h3>v17.0 – Bhop-liikkuminen parannettu</h3><ul><li>Selkeämpi hyppykaari, automaattihyppy Space pohjassa, maakitka sekä ilmassa ohjattava strafing ja vauhdin säilytys</li><li>V-näppäimellä veitsi esiin/piiloon, hiiren vasemmalla lähitaisteluhyökkäys</li><li>Kuusi veistä, joita voi ostaa ja varustaa kaupasta Coins → Knives</li></ul><h3>v13.0 – Moninpeli ja paljon lisää</h3>
 <ul><li>Moninpeli (kilpailu): kaksi pelaajaa yhdistyy suoraan toisiinsa koodien vaihdolla, ilman palvelinta. Näet toisen aallon, pisteet, elämät ja sijainnin reaaliajassa. Toimii parhaiten omalla verkkosivulla</li>
 <li>Kampanja kasvoi 30 tasoon, ja joka kuudes taso on Mutanttipesä</li>
 <li>Aseiden vaihto numeroilla 1-9, 0 ja -, hiiren rullalla sekä aseriipulla näytön alareunassa</li>
@@ -186,7 +186,7 @@ kbd{background:#222244;border-radius:4px;padding:1px 6px}
 <p>Mouse sensitivity<br><input type="range" id="sens" min=".3" max="2" step=".1"></p>
 <p>Field of view<br><input type="range" id="fov" min="60" max="100" step="1"></p>
 <p><label><input type="checkbox" id="shk"> Screen shake</label> <label><input type="checkbox" id="inv"> Invert Y</label> <label><input type="checkbox" id="mus"> Music</label></p>
-<details><summary>Controls</summary><p><kbd>WASD</kbd> move · <kbd>Mouse</kbd> aim · <kbd>Click</kbd> shoot (hold for auto)<br><kbd>1-9, 0, -</kbd> / <kbd>Wheel</kbd> switch guns · <kbd>R</kbd> reload · <kbd>G</kbd> grenade · <kbd>Q</kbd> bullet time · <kbd>Space</kbd> bunny hop · <kbd>C</kbd> dash · <kbd>V</kbd> knife · <kbd>Shift</kbd> sprint · <kbd>B</kbd> shop · <kbd>Esc</kbd> pause<br><kbd>E</kbd> enter a boss portal (glowing rings on the map)</p></details>
+<details><summary>Controls</summary><p><kbd>WASD</kbd> move · <kbd>Mouse</kbd> aim · <kbd>Click</kbd> shoot (hold for auto)<br><kbd>1-9, 0, -</kbd> / <kbd>Wheel</kbd> switch guns · <kbd>R</kbd> reload · <kbd>G</kbd> grenade · <kbd>Q</kbd> bullet time · <kbd>Space</kbd> bunny hop (knife only) · <kbd>C</kbd> dash · <kbd>V</kbd> knife · <kbd>Shift</kbd> sprint · <kbd>B</kbd> shop · <kbd>Esc</kbd> pause<br><kbd>E</kbd> enter a boss portal (glowing rings on the map)</p></details>
 <details open><summary>Display and controls</summary>
 <p>Crosshair size <input type="range" id="xs" min="10" max="44"> color <input type="color" id="xc"></p>
 <p>HUD size <input type="range" id="hs" min=".7" max="1.4" step=".1"> Music volume <input type="range" id="muv" min="0" max="1" step=".05"></p>
@@ -331,13 +331,13 @@ function knifeAttack(){
  if(targets[0]){const e=targets[0];e.hp-=k.damage*(1+save.dmg*.15);e.fl=.12;dnum(e.x,1.4,e.z,Math.round(k.damage*(1+save.dmg*.15)*10)/10,'#9fe8ff');if(e.hp<=0)killE(e);banner(k.n+' slash!',500)}
 }
 function applySkin(){const s=SKINS.find(k=>k.id===save.skin)||SKINS[0];gunMat.color.setHex(s.c);gunMat.emissive.setHex(s.e||0);}
-function applyGun(){relT=0;knife.visible=false;gun.visible=true;renderHB();const g=GUNS[cur];gBar.scale.z=g.len*2;gBar.position.z=-.1-g.len*.35;gBody.scale.set(g.pel>1?1.5:1,1,1);flash.position.z=-.2-g.len*.7;$('gn').textContent=g.n}
+function applyGun(){knife.visible=false;gun.visible=true;renderHB();const g=GUNS[cur];gBar.scale.z=g.len*2;gBar.position.z=-.1-g.len*.35;gBody.scale.set(g.pel>1?1.5:1,1,1);flash.position.z=-.2-g.len*.7;$('gn').textContent=g.n}
 
 // ---------- audio ----------
 let AC;function beep(f,d,t='square',v=.05){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=t;o.frequency.value=f;g.gain.value=v*save.vol*2;g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+d)}catch(e){}}
 
 // ---------- state ----------
-let streak=0,streakT=0,shake=0,kills=0,capOn=false,quest=null,qi=0,plungers=[],hudT=0,portNear=-1,dashT=0,relT=0,ammo={},xp=0,lvl=1,perks={},nades=3,nds=[],slow=0,slowCd=0,crates=[],bot=null,botT=0,musT=0,mi=0,horror=false,hT=0,hSp=0,hbT=0,blk=0,hSc=0,batt=100,bT=0,hAb=0,jsT=30,ast=15,noHit=0,camp=0,lvlEnd=0,fc=0,ft=0;const buffs={speed:0,dmg:0,shield:0};
+let streak=0,streakT=0,shake=0,kills=0,capOn=false,quest=null,qi=0,plungers=[],hudT=0,portNear=-1,dashT=0,relT=0,reloadWeapon=null,ammo={},xp=0,lvl=1,perks={},nades=3,nds=[],slow=0,slowCd=0,crates=[],bot=null,botT=0,musT=0,mi=0,horror=false,hT=0,hSp=0,hbT=0,blk=0,hSc=0,batt=100,bT=0,hAb=0,jsT=30,ast=15,noHit=0,camp=0,lvlEnd=0,fc=0,ft=0;const buffs={speed:0,dmg:0,shield:0};
 let state='menu',paused=false,cur='pistol',hp=100,maxHp=100,score=0,wave=0,toSpawn=[],spawnT=0,interT=0,nextShot=0,kick=0,yaw=0,pitch=0,time=0,bobT=0,playerY=0,verticalV=0,bhopSpeed=7,velocityX=0,velocityZ=0,bhopCount=0;
 const P={x:0,z:14},keys={};let enemies=[],orbs=[],parts=[],tracers=[],packs=[];
 const pGeo=new THREE.BoxGeometry(.12,.12,.12),eyeG=new THREE.SphereGeometry(.07,6,6),eyeM=new THREE.MeshBasicMaterial({color:0x111111});
@@ -401,7 +401,7 @@ function horrorStep(dt){hT+=dt;if(hT>=300){horrorWin();return}
  let nr=99;enemies.forEach(e=>{nr=Math.min(nr,Math.hypot(e.x-P.x,e.z-P.z))});hbT-=dt;if(nr<10&&hbT<=0){hbT=.3+nr/18;beep(58,.14,'sine',.14)}}
 function reset(){
  enemies.forEach(e=>scene.remove(e.g));orbs.forEach(o=>scene.remove(o.m));packs.forEach(p=>scene.remove(p.m));enemies=[];orbs=[];packs=[];
- arena=0;plungers.forEach(m=>scene.remove(m));plungers=[];qi=0;slow=0;slowCd=0;perks={};xp=0;lvl=1;nades=3+save.gr;nds.forEach(n=>scene.remove(n.m));nds=[];ammo={};relT=0;dashT=0;streak=0;streakT=0;shake=0;buffs.speed=buffs.dmg=buffs.shield=0;maxHp=100+save.hp*25;hp=maxHp;score=0;wave=0;P.x=0;P.z=14;yaw=0;pitch=0;playerY=0;verticalV=0;bhopSpeed=7;velocityX=velocityZ=0;bhopCount=0;toSpawn=[];interT=0;applySkin();applyGun();setMode();if(horror){wave=1;hT=0;hSp=3;hbT=0;blk=0;hSc=20;batt=100;bT=8;hAb=0;jsT=30;banner('SURVIVE UNTIL DAWN',3000)}else{wave=camp?(camp-1)*2:0;lvlEnd=camp?(camp-1)*2+3+(camp>>1):0;startWave();newQuest();if(camp)banner('LEVEL '+camp+' · WAVE '+wave,2500)}state='play';paused=false;
+ arena=0;plungers.forEach(m=>scene.remove(m));plungers=[];qi=0;slow=0;slowCd=0;perks={};xp=0;lvl=1;nades=3+save.gr;nds.forEach(n=>scene.remove(n.m));nds=[];ammo={};relT=0;reloadWeapon=null;dashT=0;streak=0;streakT=0;shake=0;buffs.speed=buffs.dmg=buffs.shield=0;maxHp=100+save.hp*25;hp=maxHp;score=0;wave=0;P.x=0;P.z=14;yaw=0;pitch=0;playerY=0;verticalV=0;bhopSpeed=7;velocityX=velocityZ=0;bhopCount=0;toSpawn=[];interT=0;applySkin();applyGun();setMode();if(horror){wave=1;hT=0;hSp=3;hbT=0;blk=0;hSc=20;batt=100;bT=8;hAb=0;jsT=30;banner('SURVIVE UNTIL DAWN',3000)}else{wave=camp?(camp-1)*2:0;lvlEnd=camp?(camp-1)*2+3+(camp>>1):0;startWave();newQuest();if(camp)banner('LEVEL '+camp+' · WAVE '+wave,2500)}state='play';paused=false;
 }
 function hurt(d){noHit=0;if(horror){shake=.6;beep(70,.4,'sawtooth',.15);if(R()<.3)scare()}d*=DIFF[save.diff].d*Math.max(.3,1-save.ar*.04);if(buffs.shield>0)d*=.3;shake=.2;hp-=d;$('vig').style.opacity=1;setTimeout(()=>$('vig').style.opacity=0,200);beep(110,.15,'sawtooth',.08);if(hp<=0&&state==='play')die();hud()}
 function burst(x,y,z,col,n){for(let i=0;i<n;i++){const m=new THREE.Mesh(pGeo,new THREE.MeshBasicMaterial({color:col}));m.position.set(x,y,z);scene.add(m);parts.push({m,vx:(R()-.5)*6,vy:R()*5,vz:(R()-.5)*6,l:.7})}}
@@ -416,7 +416,7 @@ function killE(e){
  hud();
 }
 
-function reload(){const m=MAG[cur];if(relT>0||(ammo[cur]??m[0])>=m[0])return;relT=m[1]*(1-(perks.rl||0)*.3)*(1-save.rs*.05);beep(250,.1,'triangle',.05)}
+function reload(){const weapon=cur,m=MAG[weapon];if(relT>0||(ammo[weapon]??m[0])>=m[0])return;reloadWeapon=weapon;relT=m[1]*(1-(perks.rl||0)*.3)*(1-save.rs*.05);beep(250,.1,'triangle',.05)}
 function dnum(x,y,z,t,c){if(!save.dn)return;const v=new THREE.Vector3(x,y,z).project(cam);if(v.z>1)return;const d=document.createElement('div');d.className='dn';d.textContent=t;d.style.color=c;d.style.left=((v.x*.5+.5)*innerWidth)+'px';d.style.top=((-v.y*.5+.5)*innerHeight)+'px';document.body.appendChild(d);setTimeout(()=>d.remove(),700)}
 function gainXP(n){xp+=n*(1+save.xg*.08);let up=0;while(xp>=60+lvl*40){xp-=60+lvl*40;lvl++;up=1}if(up){beep(900,.2,'sine',.08);perkMenu()}}
 function perkMenu(){paused=true;document.exitPointerLock&&document.exitPointerLock();const g=$('pg');g.textContent='';
@@ -455,27 +455,40 @@ function fire(){
 // ---------- update ----------
 function update(dt){
  time+=dt;
- // CS:GO-inspired bunny hopping: preserve air momentum and gain a little speed
- // by timing repeated jumps while holding movement keys.
- let fx=0,fz=0;
- if(keys.KeyW)fz-=1;if(keys.KeyS)fz+=1;if(keys.KeyA)fx-=1;if(keys.KeyD)fx+=1;
- const inputLen=Math.hypot(fx,fz)||1;fx/=inputLen;fz/=inputLen;
- const sn=Math.sin(yaw),cs=Math.cos(yaw),wishX=fx*cs+fz*sn,wishZ=-fx*sn+fz*cs;
- const baseSpeed=(keys.ShiftLeft?10:7)*(buffs.speed>0?1.5:1)*(1+save.spd*.05+(perks.spd||0)*.15);
- if(playerY<=0.001){
+ // Bunny-hop physics are active only while the knife is equipped.
+ if(knife.visible){
+  let fx=0,fz=0;
+  if(keys.KeyW)fz-=1;if(keys.KeyS)fz+=1;if(keys.KeyA)fx-=1;if(keys.KeyD)fx+=1;
+  const inputLen=Math.hypot(fx,fz)||1;fx/=inputLen;fz/=inputLen;
+  const sn=Math.sin(yaw),cs=Math.cos(yaw),wishX=fx*cs+fz*sn,wishZ=-fx*sn+fz*cs;
+  const baseSpeed=(keys.ShiftLeft?9:7)*(buffs.speed>0?1.5:1)*(1+save.spd*.05+(perks.spd||0)*.15);
+  const grounded=playerY<=0.001&&verticalV<=0;
+  if(grounded){
    playerY=0;verticalV=0;
-   if(keys.Space){verticalV=7.2;bhopCount++;bhopSpeed=Math.min(15,bhopSpeed+.75);beep(330,.045,'sine',.018)}
-   else if(!fx&&!fz)bhopSpeed=Math.max(baseSpeed,bhopSpeed-dt*7);
+   const speed=Math.hypot(velocityX,velocityZ);
+   if(speed>0){const drop=Math.max(speed,baseSpeed*.6)*8*dt;const next=Math.max(0,speed-drop);velocityX*=next/speed;velocityZ*=next/speed;}
+   if(fx||fz){const along=velocityX*wishX+velocityZ*wishZ;const add=Math.max(0,baseSpeed-along);const accel=Math.min(add,30*dt*baseSpeed);velocityX+=wishX*accel;velocityZ+=wishZ*accel;}
+   if(keys.Space){verticalV=8.7;playerY=.001;bhopCount++;beep(330,.035,'sine',.012)}
+  }else{
+   verticalV-=22*dt;playerY+=verticalV*dt;
+   if(playerY<=0){playerY=0;verticalV=0;}
+   if(fx||fz){const along=velocityX*wishX+velocityZ*wishZ;const add=Math.max(0,baseSpeed-along);const accel=Math.min(add,10*dt*baseSpeed);velocityX+=wishX*accel;velocityZ+=wishZ*accel;}
+   const airSpeed=Math.hypot(velocityX,velocityZ),maxAirSpeed=17;
+   if(airSpeed>maxAirSpeed){velocityX*=maxAirSpeed/airSpeed;velocityZ*=maxAirSpeed/airSpeed;}
+  }
+  if(fx||fz)bobT+=dt*(playerY>0?5:10);
+  P.x+=velocityX*dt;P.z+=velocityZ*dt;
  }else{
-   verticalV-=20*dt;playerY=Math.max(0,playerY+verticalV*dt);
-   if(playerY===0){verticalV=0;bhopSpeed=Math.max(baseSpeed,bhopSpeed*.88)}
+  // Guns use normal grounded movement: no jumping or bhop momentum.
+  playerY=0;verticalV=0;velocityX=0;velocityZ=0;
+  let fx=(keys.KeyD?1:0)-(keys.KeyA?1:0),fz=(keys.KeyS?1:0)-(keys.KeyW?1:0);
+  const l=Math.hypot(fx,fz)||1;fx/=l;fz/=l;
+  const sp=(keys.ShiftLeft?10:7)*(buffs.speed>0?1.5:1)*(1+save.spd*.05+(perks.spd||0)*.15)*dt;
+  const sn=Math.sin(yaw),cs=Math.cos(yaw);
+  P.x+=(fx*cs+fz*sn)*sp;P.z+=(-fx*sn+fz*cs)*sp;
+  if(fx||fz)bobT+=dt*10;
  }
- const target=fx||fz?Math.max(baseSpeed,bhopSpeed):0;
- const accel=playerY>0?2.8:12;
- if(fx||fz){velocityX+=(wishX*target-velocityX)*Math.min(1,accel*dt);velocityZ+=(wishZ*target-velocityZ)*Math.min(1,accel*dt)}
- else {velocityX*=Math.max(0,1-dt*(playerY>0?.25:9));velocityZ*=Math.max(0,1-dt*(playerY>0?.25:9))}
- P.x+=velocityX*dt;P.z+=velocityZ*dt;push(P,.5);
- if(fx||fz)bobT+=dt*(playerY>0?5:10);
+ push(P,.5);
  cam.position.set(P.x,1.6+playerY+Math.sin(bobT)*.035*(playerY===0?1:0),P.z);cam.rotation.y=yaw;cam.rotation.x=pitch;
  if(knife.visible){knifeSwing=Math.max(0,knifeSwing-dt);knife.rotation.x=knifeSwing?Math.sin((.32-knifeSwing)/.32*Math.PI)*-.9:0;knife.rotation.y=knifeSwing?Math.sin((.32-knifeSwing)/.32*Math.PI)*.35:0}
 
@@ -494,7 +507,7 @@ function update(dt){
   else if(!enemies.length){interT+=dt;if(interT===dt)banner('Wave cleared! Do a quest or enter a boss portal',3500);if(interT>6){interT=0;if(camp&&wave>=lvlEnd)campWin();else startWave()}}
  }
  hudT-=dt;if(hudT<=0){hudT=.25;hud();mpTick();ACH.forEach(a=>{if(!save.ach[a[0]]&&a[2]()){save.ach[a[0]]=1;save.coins+=a[3];banner('Achievement: '+a[0]+(a[3]?' +'+a[3]:''),2500);persist()}})}
- noHit+=dt;if(quest&&quest.k==='nohit'&&noHit>=40){noHit=0;qprog('nohit')}ast-=dt;if(ast<=0){ast=15;saveRun()}dashT-=dt;nadeStep(dt);botStep(dt);oppStep();musT-=dt;if(musT<=0&&save.mus){musT=horror?2.4:Math.max(.25,.5-wave*.012);beep(horror?[55,58,52][mi++%3]:[110,110,165,147][mi++%4],horror?1.6:.18,horror?'sawtooth':'triangle',(horror?.03:.04)*save.muv*2)}hp=Math.min(maxHp,hp+save.rg*.5*dt);save.t+=dt;{const bo=enemies.find(e=>e.t.room||e.type==='boss'||e.type==='abom');$('bb').style.display=bo?'block':'none';if(bo){$('bn').textContent={boss:'Boss Toilet',abom:'The Abomination',titan:'Titan Toilet',plunger:'Plunger Queen',king:'Golden Flush King'}[bo.type];$('bf').style.width=Math.max(0,bo.hp/bo.mx*100)+'%'}}if(relT>0){relT-=dt;if(relT<=0)ammo[cur]=MAG[cur][0]}drawMM();
+ noHit+=dt;if(quest&&quest.k==='nohit'&&noHit>=40){noHit=0;qprog('nohit')}ast-=dt;if(ast<=0){ast=15;saveRun()}dashT-=dt;nadeStep(dt);botStep(dt);oppStep();musT-=dt;if(musT<=0&&save.mus){musT=horror?2.4:Math.max(.25,.5-wave*.012);beep(horror?[55,58,52][mi++%3]:[110,110,165,147][mi++%4],horror?1.6:.18,horror?'sawtooth':'triangle',(horror?.03:.04)*save.muv*2)}hp=Math.min(maxHp,hp+save.rg*.5*dt);save.t+=dt;{const bo=enemies.find(e=>e.t.room||e.type==='boss'||e.type==='abom');$('bb').style.display=bo?'block':'none';if(bo){$('bn').textContent={boss:'Boss Toilet',abom:'The Abomination',titan:'Titan Toilet',plunger:'Plunger Queen',king:'Golden Flush King'}[bo.type];$('bf').style.width=Math.max(0,bo.hp/bo.mx*100)+'%'}}if(relT>0){relT-=dt;if(relT<=0){relT=0;const w=reloadWeapon||cur;ammo[w]=MAG[w][0];reloadWeapon=null}}drawMM();
  ROOMS.forEach(r=>r.m.rotation.y+=dt*1.5);
  portNear=-1;if(!arena&&!horror)ROOMS.forEach((r,i)=>{if(Math.hypot(r.x-P.x,r.z-P.z)<2.6)portNear=i});if(portNear>=0)banner('Press E: '+ROOMS[portNear].name+' boss room',250);
  crates=crates.filter(m=>{m.rotation.y+=dt*2;m.position.y=.5+Math.sin(time*3)*.1;if(Math.hypot(m.position.x-P.x,m.position.z-P.z)<1.3){scene.remove(m);openCrate();return false}return true});
@@ -628,7 +641,7 @@ function renderShop(){const g=$('sg');g.textContent='';$('sco').textContent=save
 
 // ---------- input ----------
 let mouseDown=false;
-addEventListener('keydown',e=>{keys[e.code]=1;
+addEventListener('keydown',e=>{if(e.code==='Space'&&state==='play')e.preventDefault();keys[e.code]=1;
  if(e.code==='KeyV'&&state==='play'&&!paused){if(knife.visible)useGun();else applyKnife()}
  if(e.code==='KeyR'&&state==='play'&&!paused&&!knife.visible)reload();
  if(e.code==='KeyG'&&state==='play'&&!paused)throwNade();
