@@ -70,7 +70,7 @@ kbd{background:#222244;border-radius:4px;padding:1px 6px}
 <button class="tile" id="logb"><b>📜 PÄIVITYKSET</b><i>Update log (Finnish)</i></button>
 <button class="tile" id="setb"><b>⚙️ SETTINGS</b><i>Audio, controls, backup</i></button>
 </div>
-<p class="keys"><kbd>WASD</kbd> move · <kbd>Mouse</kbd> aim · <kbd>Click</kbd> shoot · <kbd>1-9, 0, -</kbd> / <kbd>Wheel</kbd> guns · <kbd>R</kbd> reload · <kbd>G</kbd> grenade · <kbd>Q</kbd> bullet time · <kbd>Space</kbd> bhop/jump (knife only) · <kbd>C</kbd> dash · <kbd>V</kbd> knife · <kbd>B</kbd> shop</p>
+<p class="keys"><kbd>WASD</kbd> move · <kbd>Mouse</kbd> aim · <kbd>Click</kbd> shoot · <kbd>1-9, 0, -</kbd> / <kbd>Wheel</kbd> guns · <kbd>R</kbd> reload · <kbd>G</kbd> grenade · <kbd>Q</kbd> bullet time · <kbd>Space</kbd> tap to jump/bhop (knife only; 0.30s timing window) · <kbd>C</kbd> dash · <kbd>V</kbd> knife · <kbd>B</kbd> shop</p>
 </div></div>
 
 <div class="ov" id="shop"><div class="box">
@@ -85,7 +85,7 @@ kbd{background:#222244;border-radius:4px;padding:1px 6px}
 
 <div class="ov" id="log"><div class="box" lang="fi" style="text-align:left">
 <h2>PÄIVITYSLOKI</h2>
-<h3>v17.0 – Bhop-liikkuminen parannettu</h3><ul><li>Selkeämpi hyppykaari, automaattihyppy Space pohjassa, maakitka sekä ilmassa ohjattava strafing ja vauhdin säilytys</li><li>V-näppäimellä veitsi esiin/piiloon, hiiren vasemmalla lähitaisteluhyökkäys</li><li>Kuusi veistä, joita voi ostaa ja varustaa kaupasta Coins → Knives</li></ul><h3>v13.0 – Moninpeli ja paljon lisää</h3>
+<h3>v18.0 – Tarkempi CS-tyylinen bhop</h3><ul><li>Hyppy vaatii uuden Space-painalluksen; 0,30 sekunnin hyppysyöteikkuna auttaa ajoittamaan laskeutumisen</li><li>Source/CS-tyylinen air acceleration ja ilmassa sivuttaisohjaus, ilman Space-näppäimen automaattista pohjassa pitämistä</li><li>V-näppäimellä veitsi esiin/piiloon, hiiren vasemmalla lähitaisteluhyökkäys</li><li>Kuusi veistä, joita voi ostaa ja varustaa kaupasta Coins → Knives</li></ul><h3>v13.0 – Moninpeli ja paljon lisää</h3>
 <ul><li>Moninpeli (kilpailu): kaksi pelaajaa yhdistyy suoraan toisiinsa koodien vaihdolla, ilman palvelinta. Näet toisen aallon, pisteet, elämät ja sijainnin reaaliajassa. Toimii parhaiten omalla verkkosivulla</li>
 <li>Kampanja kasvoi 30 tasoon, ja joka kuudes taso on Mutanttipesä</li>
 <li>Aseiden vaihto numeroilla 1-9, 0 ja -, hiiren rullalla sekä aseriipulla näytön alareunassa</li>
@@ -186,7 +186,7 @@ kbd{background:#222244;border-radius:4px;padding:1px 6px}
 <p>Mouse sensitivity<br><input type="range" id="sens" min=".3" max="2" step=".1"></p>
 <p>Field of view<br><input type="range" id="fov" min="60" max="100" step="1"></p>
 <p><label><input type="checkbox" id="shk"> Screen shake</label> <label><input type="checkbox" id="inv"> Invert Y</label> <label><input type="checkbox" id="mus"> Music</label></p>
-<details><summary>Controls</summary><p><kbd>WASD</kbd> move · <kbd>Mouse</kbd> aim · <kbd>Click</kbd> shoot (hold for auto)<br><kbd>1-9, 0, -</kbd> / <kbd>Wheel</kbd> switch guns · <kbd>R</kbd> reload · <kbd>G</kbd> grenade · <kbd>Q</kbd> bullet time · <kbd>Space</kbd> bunny hop (knife only) · <kbd>C</kbd> dash · <kbd>V</kbd> knife · <kbd>Shift</kbd> sprint · <kbd>B</kbd> shop · <kbd>Esc</kbd> pause<br><kbd>E</kbd> enter a boss portal (glowing rings on the map)</p></details>
+<details><summary>Controls</summary><p><kbd>WASD</kbd> move · <kbd>Mouse</kbd> aim · <kbd>Click</kbd> shoot (hold for auto)<br><kbd>1-9, 0, -</kbd> / <kbd>Wheel</kbd> switch guns · <kbd>R</kbd> reload · <kbd>G</kbd> grenade · <kbd>Q</kbd> bullet time · <kbd>Space</kbd> tap to bunny hop (knife only; 0.30s timing window) · <kbd>C</kbd> dash · <kbd>V</kbd> knife · <kbd>Shift</kbd> sprint · <kbd>B</kbd> shop · <kbd>Esc</kbd> pause<br><kbd>E</kbd> enter a boss portal (glowing rings on the map)</p></details>
 <details open><summary>Display and controls</summary>
 <p>Crosshair size <input type="range" id="xs" min="10" max="44"> color <input type="color" id="xc"></p>
 <p>HUD size <input type="range" id="hs" min=".7" max="1.4" step=".1"> Music volume <input type="range" id="muv" min="0" max="1" step=".05"></p>
@@ -338,7 +338,7 @@ let AC;function beep(f,d,t='square',v=.05){try{AC=AC||new (window.AudioContext||
 
 // ---------- state ----------
 let streak=0,streakT=0,shake=0,kills=0,capOn=false,quest=null,qi=0,plungers=[],hudT=0,portNear=-1,dashT=0,relT=0,reloadWeapon=null,ammo={},xp=0,lvl=1,perks={},nades=3,nds=[],slow=0,slowCd=0,crates=[],bot=null,botT=0,musT=0,mi=0,horror=false,hT=0,hSp=0,hbT=0,blk=0,hSc=0,batt=100,bT=0,hAb=0,jsT=30,ast=15,noHit=0,camp=0,lvlEnd=0,fc=0,ft=0;const buffs={speed:0,dmg:0,shield:0};
-let state='menu',paused=false,cur='pistol',hp=100,maxHp=100,score=0,wave=0,toSpawn=[],spawnT=0,interT=0,nextShot=0,kick=0,yaw=0,pitch=0,time=0,bobT=0,playerY=0,verticalV=0,bhopSpeed=7,velocityX=0,velocityZ=0,bhopCount=0;
+let state='menu',paused=false,cur='pistol',hp=100,maxHp=100,score=0,wave=0,toSpawn=[],spawnT=0,interT=0,nextShot=0,kick=0,yaw=0,pitch=0,time=0,bobT=0,playerY=0,verticalV=0,bhopSpeed=7,velocityX=0,velocityZ=0,bhopCount=0,jumpBuffer=0;
 const P={x:0,z:14},keys={};let enemies=[],orbs=[],parts=[],tracers=[],packs=[];
 const pGeo=new THREE.BoxGeometry(.12,.12,.12),eyeG=new THREE.SphereGeometry(.07,6,6),eyeM=new THREE.MeshBasicMaterial({color:0x111111});
 const eyeBig=new THREE.SphereGeometry(.12,6,6),eyeR=new THREE.MeshBasicMaterial({color:0xff2020,fog:false});
@@ -401,7 +401,7 @@ function horrorStep(dt){hT+=dt;if(hT>=300){horrorWin();return}
  let nr=99;enemies.forEach(e=>{nr=Math.min(nr,Math.hypot(e.x-P.x,e.z-P.z))});hbT-=dt;if(nr<10&&hbT<=0){hbT=.3+nr/18;beep(58,.14,'sine',.14)}}
 function reset(){
  enemies.forEach(e=>scene.remove(e.g));orbs.forEach(o=>scene.remove(o.m));packs.forEach(p=>scene.remove(p.m));enemies=[];orbs=[];packs=[];
- arena=0;plungers.forEach(m=>scene.remove(m));plungers=[];qi=0;slow=0;slowCd=0;perks={};xp=0;lvl=1;nades=3+save.gr;nds.forEach(n=>scene.remove(n.m));nds=[];ammo={};relT=0;reloadWeapon=null;dashT=0;streak=0;streakT=0;shake=0;buffs.speed=buffs.dmg=buffs.shield=0;maxHp=100+save.hp*25;hp=maxHp;score=0;wave=0;P.x=0;P.z=14;yaw=0;pitch=0;playerY=0;verticalV=0;bhopSpeed=7;velocityX=velocityZ=0;bhopCount=0;toSpawn=[];interT=0;applySkin();applyGun();setMode();if(horror){wave=1;hT=0;hSp=3;hbT=0;blk=0;hSc=20;batt=100;bT=8;hAb=0;jsT=30;banner('SURVIVE UNTIL DAWN',3000)}else{wave=camp?(camp-1)*2:0;lvlEnd=camp?(camp-1)*2+3+(camp>>1):0;startWave();newQuest();if(camp)banner('LEVEL '+camp+' · WAVE '+wave,2500)}state='play';paused=false;
+ arena=0;plungers.forEach(m=>scene.remove(m));plungers=[];qi=0;slow=0;slowCd=0;perks={};xp=0;lvl=1;nades=3+save.gr;nds.forEach(n=>scene.remove(n.m));nds=[];ammo={};relT=0;reloadWeapon=null;dashT=0;streak=0;streakT=0;shake=0;buffs.speed=buffs.dmg=buffs.shield=0;maxHp=100+save.hp*25;hp=maxHp;score=0;wave=0;P.x=0;P.z=14;yaw=0;pitch=0;playerY=0;verticalV=0;bhopSpeed=7;velocityX=velocityZ=0;bhopCount=0;jumpBuffer=0;toSpawn=[];interT=0;applySkin();applyGun();setMode();if(horror){wave=1;hT=0;hSp=3;hbT=0;blk=0;hSc=20;batt=100;bT=8;hAb=0;jsT=30;banner('SURVIVE UNTIL DAWN',3000)}else{wave=camp?(camp-1)*2:0;lvlEnd=camp?(camp-1)*2+3+(camp>>1):0;startWave();newQuest();if(camp)banner('LEVEL '+camp+' · WAVE '+wave,2500)}state='play';paused=false;
 }
 function hurt(d){noHit=0;if(horror){shake=.6;beep(70,.4,'sawtooth',.15);if(R()<.3)scare()}d*=DIFF[save.diff].d*Math.max(.3,1-save.ar*.04);if(buffs.shield>0)d*=.3;shake=.2;hp-=d;$('vig').style.opacity=1;setTimeout(()=>$('vig').style.opacity=0,200);beep(110,.15,'sawtooth',.08);if(hp<=0&&state==='play')die();hud()}
 function burst(x,y,z,col,n){for(let i=0;i<n;i++){const m=new THREE.Mesh(pGeo,new THREE.MeshBasicMaterial({color:col}));m.position.set(x,y,z);scene.add(m);parts.push({m,vx:(R()-.5)*6,vy:R()*5,vz:(R()-.5)*6,l:.7})}}
@@ -455,6 +455,7 @@ function fire(){
 // ---------- update ----------
 function update(dt){
  time+=dt;
+ jumpBuffer=Math.max(0,jumpBuffer-dt);
  // Bunny-hop physics are active only while the knife is equipped.
  if(knife.visible){
   let fx=0,fz=0;
@@ -468,11 +469,18 @@ function update(dt){
    const speed=Math.hypot(velocityX,velocityZ);
    if(speed>0){const drop=Math.max(speed,baseSpeed*.6)*8*dt;const next=Math.max(0,speed-drop);velocityX*=next/speed;velocityZ*=next/speed;}
    if(fx||fz){const along=velocityX*wishX+velocityZ*wishZ;const add=Math.max(0,baseSpeed-along);const accel=Math.min(add,30*dt*baseSpeed);velocityX+=wishX*accel;velocityZ+=wishZ*accel;}
-   if(keys.Space){verticalV=8.7;playerY=.001;bhopCount++;beep(330,.035,'sine',.012)}
+   if(jumpBuffer>0){verticalV=8.7;playerY=.001;jumpBuffer=0;bhopCount++;beep(330,.035,'sine',.012)}
   }else{
    verticalV-=22*dt;playerY+=verticalV*dt;
    if(playerY<=0){playerY=0;verticalV=0;}
-   if(fx||fz){const along=velocityX*wishX+velocityZ*wishZ;const add=Math.max(0,baseSpeed-along);const accel=Math.min(add,10*dt*baseSpeed);velocityX+=wishX*accel;velocityZ+=wishZ*accel;}
+   if(fx||fz){
+    // Source/CS-inspired air acceleration: accelerate only along the wish direction,
+    // so strafing across your current velocity builds speed more effectively than holding W.
+    const wishSpeed=baseSpeed, currentAlong=velocityX*wishX+velocityZ*wishZ;
+    const addSpeed=wishSpeed-currentAlong;
+    if(addSpeed>0){const airAccel=12;const accel=Math.min(airAccel*wishSpeed*dt,addSpeed);velocityX+=wishX*accel;velocityZ+=wishZ*accel;}
+   }
+   // Keep air control useful without allowing unbounded speed in this game's smaller world scale.
    const airSpeed=Math.hypot(velocityX,velocityZ),maxAirSpeed=17;
    if(airSpeed>maxAirSpeed){velocityX*=maxAirSpeed/airSpeed;velocityZ*=maxAirSpeed/airSpeed;}
   }
@@ -641,7 +649,7 @@ function renderShop(){const g=$('sg');g.textContent='';$('sco').textContent=save
 
 // ---------- input ----------
 let mouseDown=false;
-addEventListener('keydown',e=>{if(e.code==='Space'&&state==='play')e.preventDefault();keys[e.code]=1;
+addEventListener('keydown',e=>{if(e.code==='Space'&&state==='play'){e.preventDefault();if(!e.repeat&&!paused&&knife.visible)jumpBuffer=.30;}keys[e.code]=1;
  if(e.code==='KeyV'&&state==='play'&&!paused){if(knife.visible)useGun();else applyKnife()}
  if(e.code==='KeyR'&&state==='play'&&!paused&&!knife.visible)reload();
  if(e.code==='KeyG'&&state==='play'&&!paused)throwNade();
