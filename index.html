@@ -55,7 +55,7 @@ kbd{background:#222244;border-radius:4px;padding:1px 6px}
 <div class="hud" id="bot"><div><div class="bar"><div id="hpf"></div></div><div id="hpt">100</div><div class="bar" style="width:220px;height:6px;margin-top:4px"><div id="xpf" style="height:100%;background:#4aa8ff;width:0"></div></div></div><div id="gn">Pistol</div></div>
 
 <div class="ov" id="menu" style="display:flex"><div class="box lobby">
-<h1>TOILET INVASION <small style="font-size:14px;color:var(--mut)">v13.0</small></h1><p class="sub">The toilets are singing again. Blast them all.</p>
+<h1>TOILET INVASION <small style="font-size:14px;color:var(--mut)">v14.0</small></h1><p class="sub">The toilets are singing again. Blast them all.</p>
 <div class="card"><input id="nm" maxlength="12" placeholder="Your name"><select id="diff"><option value="0">Easy</option><option value="1">Normal</option><option value="2">Hard</option><option value="3">Insane</option></select><span id="bst"></span></div>
 <div class="tiles">
 <button class="tile go" id="contb" style="display:none"><b>▶ CONTINUE</b><i id="contI"></i></button>
@@ -70,12 +70,12 @@ kbd{background:#222244;border-radius:4px;padding:1px 6px}
 <button class="tile" id="logb"><b>📜 PÄIVITYKSET</b><i>Update log (Finnish)</i></button>
 <button class="tile" id="setb"><b>⚙️ SETTINGS</b><i>Audio, controls, backup</i></button>
 </div>
-<p class="keys"><kbd>WASD</kbd> move · <kbd>Mouse</kbd> aim · <kbd>Click</kbd> shoot · <kbd>1-9, 0, -</kbd> / <kbd>Wheel</kbd> guns · <kbd>R</kbd> reload · <kbd>G</kbd> grenade · <kbd>Q</kbd> bullet time · <kbd>Space</kbd> dash · <kbd>B</kbd> shop</p>
+<p class="keys"><kbd>WASD</kbd> move · <kbd>Mouse</kbd> aim · <kbd>Click</kbd> shoot · <kbd>1-9, 0, -</kbd> / <kbd>Wheel</kbd> guns · <kbd>R</kbd> reload · <kbd>G</kbd> grenade · <kbd>Q</kbd> bullet time · <kbd>Space</kbd> bhop/jump · <kbd>C</kbd> dash · <kbd>V</kbd> knife · <kbd>B</kbd> shop</p>
 </div></div>
 
 <div class="ov" id="shop"><div class="box">
 <h2>GUN SHOP — <span id="sco"></span> coins</h2>
-<div class="tabs"><button data-t="g" class="on">Guns</button><button data-t="s">Skins</button><button data-t="u">Upgrades</button></div>
+<div class="tabs"><button data-t="g" class="on">Guns</button><button data-t="s">Skins</button><button data-t="u">Upgrades</button><button data-t="k">Knives</button></div>
 <div class="grid" id="sg"></div>
 <p><button class="go" id="shopx">Close</button></p></div></div>
 
@@ -85,7 +85,7 @@ kbd{background:#222244;border-radius:4px;padding:1px 6px}
 
 <div class="ov" id="log"><div class="box" lang="fi" style="text-align:left">
 <h2>PÄIVITYSLOKI</h2>
-<h3>v13.0 – Moninpeli ja paljon lisää</h3>
+<h3>v14.0 – Bunny hop ja veitset</h3><ul><li>CS:GO-henkinen bunny hopping: pidä Space pohjassa ja liiku WASD-näppäimillä; ilmassa säilyy vauhti ja oikein ajoitetut hypyt kasvattavat nopeutta</li><li>V-näppäimellä veitsi esiin/piiloon, hiiren vasemmalla lähitaisteluhyökkäys</li><li>Kuusi veistä, joita voi ostaa ja varustaa kaupasta Coins → Knives</li></ul><h3>v13.0 – Moninpeli ja paljon lisää</h3>
 <ul><li>Moninpeli (kilpailu): kaksi pelaajaa yhdistyy suoraan toisiinsa koodien vaihdolla, ilman palvelinta. Näet toisen aallon, pisteet, elämät ja sijainnin reaaliajassa. Toimii parhaiten omalla verkkosivulla</li>
 <li>Kampanja kasvoi 30 tasoon, ja joka kuudes taso on Mutanttipesä</li>
 <li>Aseiden vaihto numeroilla 1-9, 0 ja -, hiiren rullalla sekä aseriipulla näytön alareunassa</li>
@@ -186,7 +186,7 @@ kbd{background:#222244;border-radius:4px;padding:1px 6px}
 <p>Mouse sensitivity<br><input type="range" id="sens" min=".3" max="2" step=".1"></p>
 <p>Field of view<br><input type="range" id="fov" min="60" max="100" step="1"></p>
 <p><label><input type="checkbox" id="shk"> Screen shake</label> <label><input type="checkbox" id="inv"> Invert Y</label> <label><input type="checkbox" id="mus"> Music</label></p>
-<details><summary>Controls</summary><p><kbd>WASD</kbd> move · <kbd>Mouse</kbd> aim · <kbd>Click</kbd> shoot (hold for auto)<br><kbd>1-9, 0, -</kbd> / <kbd>Wheel</kbd> switch guns · <kbd>R</kbd> reload · <kbd>G</kbd> grenade · <kbd>Q</kbd> bullet time · <kbd>Space</kbd> dash · <kbd>Shift</kbd> sprint · <kbd>B</kbd> shop · <kbd>Esc</kbd> pause<br><kbd>E</kbd> enter a boss portal (glowing rings on the map)</p></details>
+<details><summary>Controls</summary><p><kbd>WASD</kbd> move · <kbd>Mouse</kbd> aim · <kbd>Click</kbd> shoot (hold for auto)<br><kbd>1-9, 0, -</kbd> / <kbd>Wheel</kbd> switch guns · <kbd>R</kbd> reload · <kbd>G</kbd> grenade · <kbd>Q</kbd> bullet time · <kbd>Space</kbd> bunny hop · <kbd>C</kbd> dash · <kbd>V</kbd> knife · <kbd>Shift</kbd> sprint · <kbd>B</kbd> shop · <kbd>Esc</kbd> pause<br><kbd>E</kbd> enter a boss portal (glowing rings on the map)</p></details>
 <details open><summary>Display and controls</summary>
 <p>Crosshair size <input type="range" id="xs" min="10" max="44"> color <input type="color" id="xc"></p>
 <p>HUD size <input type="range" id="hs" min=".7" max="1.4" step=".1"> Music volume <input type="range" id="muv" min="0" max="1" step=".05"></p>
@@ -215,9 +215,9 @@ kbd{background:#222244;border-radius:4px;padding:1px 6px}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 const $=id=>document.getElementById(id)||{style:{},classList:{toggle(){}},value:'',textContent:'',checked:false},R=Math.random;
-let save={coins:0,best:0,guns:{pistol:1},skins:{classic:1},skin:'classic',hp:0,dmg:0,name:'',gid:'',vol:.5,sens:1,fov:75,shk:1,inv:0,ar:0,cc:0,rs:0,gr:0,xg:0,cb:0,dc:0,city:{g:[],t:0,raids:0,rt:0},dm:null,xs:18,xc:'#ffffff',hs:1,muv:.5,dn:1,mm:1,jsc:1,gq:0,fps:0,run:null,cu:1,diff:1,bot:0,mus:1,cr:0,fr:0,spd:0,rg:0,ach:{},k:0,h:0,t:0,q:0,rooms:0,jp:0,maxWave:0,top:[],last:'',ds:0};
+let save={knives:{classic:1},knife:'classic',coins:0,best:0,guns:{pistol:1},skins:{classic:1},skin:'classic',hp:0,dmg:0,name:'',gid:'',vol:.5,sens:1,fov:75,shk:1,inv:0,ar:0,cc:0,rs:0,gr:0,xg:0,cb:0,dc:0,city:{g:[],t:0,raids:0,rt:0},dm:null,xs:18,xc:'#ffffff',hs:1,muv:.5,dn:1,mm:1,jsc:1,gq:0,fps:0,run:null,cu:1,diff:1,bot:0,mus:1,cr:0,fr:0,spd:0,rg:0,ach:{},k:0,h:0,t:0,q:0,rooms:0,jp:0,maxWave:0,top:[],last:'',ds:0};
 try{Object.assign(save,JSON.parse(localStorage.getItem('ti')||'{}'))}catch(e){}
-if(!save.gid)save.gid='g'+R().toString(36).slice(2,10);
+save.knives=save.knives||{classic:1};if(!save.knife)save.knife='classic';if(!save.gid)save.gid='g'+R().toString(36).slice(2,10);
 let lbMsg='',ct=0;const persist=()=>{try{localStorage.setItem('ti',JSON.stringify(save))}catch(e){}if(!ct)ct=setTimeout(()=>{ct=0;submit()},15000)};
 $('nm').value=save.name;
 
@@ -252,6 +252,14 @@ const SKINS=[
  {id:'obs',n:'Obsidian',c:0x1a0a2a,e:0x330066,cost:2000},{id:'diamond',n:'Diamond',c:0xb9f2ff,e:0x2a4a55,cost:5000},
  {id:'galaxy',n:'Galaxy',c:0x6633ff,e:0x111133,cost:3500,rb:2},{id:'fire',n:'Inferno',c:0xff4500,e:0x441100,cost:3500,rb:3},
  {id:'titan',n:'Titan Blue',c:0x6aa0ff,e:0x102244,ex:1,rb:2},{id:'plasma',n:'Plasma Queen',c:0xff5599,e:0x44112a,ex:1,rb:1},{id:'kingskin',n:'Flush King Gold',c:0xffd700,e:0x554400,ex:1,rb:3}];
+const KNIVES=[
+ {id:'classic',n:'Classic Knife',cost:0,col:0xc8d2dc,damage:3},
+ {id:'karambit',n:'Karambit',cost:1200,col:0x9aa8b8,damage:4.5},
+ {id:'butterfly',n:'Butterfly Knife',cost:1800,col:0xd8dce4,damage:3.5},
+ {id:'m9',n:'M9 Bayonet',cost:2200,col:0x8793a0,damage:5},
+ {id:'fade',n:'Fade Knife',cost:3500,col:0xff7b4a,damage:4.5},
+ {id:'emerald',n:'Emerald Knife',cost:5000,col:0x19e58c,damage:6}
+];
 const T={
  grunt:{col:0xf2f2f2,s:1,hp:3,sp:3,dmg:8,pts:10},
  runner:{col:0x7fe8ff,s:.7,hp:2,sp:6.2,dmg:6,pts:15},
@@ -302,15 +310,35 @@ const gunMat=new THREE.MeshLambertMaterial({color:0x888888});
 const gun=new THREE.Group(),gBody=new THREE.Mesh(new THREE.BoxGeometry(.1,.14,.5),gunMat),gBar=new THREE.Mesh(new THREE.BoxGeometry(.05,.05,.5),gunMat);
 gBar.position.z=-.35;gun.add(gBody,gBar);gun.position.set(.28,-.26,-.55);cam.add(gun);
 const flash=new THREE.Mesh(new THREE.SphereGeometry(.09,8,8),new THREE.MeshBasicMaterial({color:0xffee88}));flash.position.set(0,0,-.75);flash.visible=false;gun.add(flash);
+// CS-style knife held in the right hand; knife skins are earned in the shop.
+const knife=new THREE.Group();
+const knifeBlade=new THREE.Mesh(new THREE.BoxGeometry(.045,.055,.48),new THREE.MeshStandardMaterial({color:0xc8d2dc,metalness:.85,roughness:.22}));
+knifeBlade.position.set(0,.025,-.3);
+const knifeHandle=new THREE.Mesh(new THREE.BoxGeometry(.075,.075,.22),new THREE.MeshStandardMaterial({color:0x25252c,roughness:.7}));
+knifeHandle.position.set(0,-.015,.02);
+const knifeGuard=new THREE.Mesh(new THREE.BoxGeometry(.13,.045,.055),new THREE.MeshStandardMaterial({color:0x777780,metalness:.7}));
+knifeGuard.position.set(0,.005,-.08);knife.add(knifeBlade,knifeHandle,knifeGuard);knife.position.set(.34,-.29,-.48);cam.add(knife);knife.visible=false;
+let knifeSwing=0,knifeNext=0;
+function applyKnife(){const k=KNIVES.find(x=>x.id===save.knife)||KNIVES[0];knifeBlade.material.color.setHex(k.col);knife.visible=true;gun.visible=false;$('gn').textContent=k.n+' · KNIFE (V to switch)'}
+function useGun(){knife.visible=false;gun.visible=true;applyGun()}
+function knifeAttack(){
+ if(state!=='play'||paused||time<knifeNext)return;
+ knifeNext=time+.42;knifeSwing=.32;beep(260,.07,'sawtooth',.035);
+ const dir=new THREE.Vector3();cam.getWorldDirection(dir);
+ const k=KNIVES.find(x=>x.id===save.knife)||KNIVES[0];
+ const targets=enemies.filter(e=>{const dx=e.x-P.x,dz=e.z-P.z,dist=Math.hypot(dx,dz);return dist<2.5&&dist>.01&&(dx*dir.x+dz*dir.z)/dist>.25});
+ targets.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z));
+ if(targets[0]){const e=targets[0];e.hp-=k.damage*(1+save.dmg*.15);e.fl=.12;dnum(e.x,1.4,e.z,Math.round(k.damage*(1+save.dmg*.15)*10)/10,'#9fe8ff');if(e.hp<=0)killE(e);banner(k.n+' slash!',500)}
+}
 function applySkin(){const s=SKINS.find(k=>k.id===save.skin)||SKINS[0];gunMat.color.setHex(s.c);gunMat.emissive.setHex(s.e||0);}
-function applyGun(){relT=0;renderHB();const g=GUNS[cur];gBar.scale.z=g.len*2;gBar.position.z=-.1-g.len*.35;gBody.scale.set(g.pel>1?1.5:1,1,1);flash.position.z=-.2-g.len*.7;$('gn').textContent=g.n}
+function applyGun(){relT=0;knife.visible=false;gun.visible=true;renderHB();const g=GUNS[cur];gBar.scale.z=g.len*2;gBar.position.z=-.1-g.len*.35;gBody.scale.set(g.pel>1?1.5:1,1,1);flash.position.z=-.2-g.len*.7;$('gn').textContent=g.n}
 
 // ---------- audio ----------
 let AC;function beep(f,d,t='square',v=.05){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=t;o.frequency.value=f;g.gain.value=v*save.vol*2;g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+d)}catch(e){}}
 
 // ---------- state ----------
 let streak=0,streakT=0,shake=0,kills=0,capOn=false,quest=null,qi=0,plungers=[],hudT=0,portNear=-1,dashT=0,relT=0,ammo={},xp=0,lvl=1,perks={},nades=3,nds=[],slow=0,slowCd=0,crates=[],bot=null,botT=0,musT=0,mi=0,horror=false,hT=0,hSp=0,hbT=0,blk=0,hSc=0,batt=100,bT=0,hAb=0,jsT=30,ast=15,noHit=0,camp=0,lvlEnd=0,fc=0,ft=0;const buffs={speed:0,dmg:0,shield:0};
-let state='menu',paused=false,cur='pistol',hp=100,maxHp=100,score=0,wave=0,toSpawn=[],spawnT=0,interT=0,nextShot=0,kick=0,yaw=0,pitch=0,time=0,bobT=0;
+let state='menu',paused=false,cur='pistol',hp=100,maxHp=100,score=0,wave=0,toSpawn=[],spawnT=0,interT=0,nextShot=0,kick=0,yaw=0,pitch=0,time=0,bobT=0,playerY=0,verticalV=0,bhopSpeed=7,velocityX=0,velocityZ=0,bhopCount=0;
 const P={x:0,z:14},keys={};let enemies=[],orbs=[],parts=[],tracers=[],packs=[];
 const pGeo=new THREE.BoxGeometry(.12,.12,.12),eyeG=new THREE.SphereGeometry(.07,6,6),eyeM=new THREE.MeshBasicMaterial({color:0x111111});
 const eyeBig=new THREE.SphereGeometry(.12,6,6),eyeR=new THREE.MeshBasicMaterial({color:0xff2020,fog:false});
@@ -373,7 +401,7 @@ function horrorStep(dt){hT+=dt;if(hT>=300){horrorWin();return}
  let nr=99;enemies.forEach(e=>{nr=Math.min(nr,Math.hypot(e.x-P.x,e.z-P.z))});hbT-=dt;if(nr<10&&hbT<=0){hbT=.3+nr/18;beep(58,.14,'sine',.14)}}
 function reset(){
  enemies.forEach(e=>scene.remove(e.g));orbs.forEach(o=>scene.remove(o.m));packs.forEach(p=>scene.remove(p.m));enemies=[];orbs=[];packs=[];
- arena=0;plungers.forEach(m=>scene.remove(m));plungers=[];qi=0;slow=0;slowCd=0;perks={};xp=0;lvl=1;nades=3+save.gr;nds.forEach(n=>scene.remove(n.m));nds=[];ammo={};relT=0;dashT=0;streak=0;streakT=0;shake=0;buffs.speed=buffs.dmg=buffs.shield=0;maxHp=100+save.hp*25;hp=maxHp;score=0;wave=0;P.x=0;P.z=14;yaw=0;pitch=0;toSpawn=[];interT=0;applySkin();applyGun();setMode();if(horror){wave=1;hT=0;hSp=3;hbT=0;blk=0;hSc=20;batt=100;bT=8;hAb=0;jsT=30;banner('SURVIVE UNTIL DAWN',3000)}else{wave=camp?(camp-1)*2:0;lvlEnd=camp?(camp-1)*2+3+(camp>>1):0;startWave();newQuest();if(camp)banner('LEVEL '+camp+' · WAVE '+wave,2500)}state='play';paused=false;
+ arena=0;plungers.forEach(m=>scene.remove(m));plungers=[];qi=0;slow=0;slowCd=0;perks={};xp=0;lvl=1;nades=3+save.gr;nds.forEach(n=>scene.remove(n.m));nds=[];ammo={};relT=0;dashT=0;streak=0;streakT=0;shake=0;buffs.speed=buffs.dmg=buffs.shield=0;maxHp=100+save.hp*25;hp=maxHp;score=0;wave=0;P.x=0;P.z=14;yaw=0;pitch=0;playerY=0;verticalV=0;bhopSpeed=7;velocityX=velocityZ=0;bhopCount=0;toSpawn=[];interT=0;applySkin();applyGun();setMode();if(horror){wave=1;hT=0;hSp=3;hbT=0;blk=0;hSc=20;batt=100;bT=8;hAb=0;jsT=30;banner('SURVIVE UNTIL DAWN',3000)}else{wave=camp?(camp-1)*2:0;lvlEnd=camp?(camp-1)*2+3+(camp>>1):0;startWave();newQuest();if(camp)banner('LEVEL '+camp+' · WAVE '+wave,2500)}state='play';paused=false;
 }
 function hurt(d){noHit=0;if(horror){shake=.6;beep(70,.4,'sawtooth',.15);if(R()<.3)scare()}d*=DIFF[save.diff].d*Math.max(.3,1-save.ar*.04);if(buffs.shield>0)d*=.3;shake=.2;hp-=d;$('vig').style.opacity=1;setTimeout(()=>$('vig').style.opacity=0,200);beep(110,.15,'sawtooth',.08);if(hp<=0&&state==='play')die();hud()}
 function burst(x,y,z,col,n){for(let i=0;i<n;i++){const m=new THREE.Mesh(pGeo,new THREE.MeshBasicMaterial({color:col}));m.position.set(x,y,z);scene.add(m);parts.push({m,vx:(R()-.5)*6,vy:R()*5,vz:(R()-.5)*6,l:.7})}}
@@ -427,19 +455,36 @@ function fire(){
 // ---------- update ----------
 function update(dt){
  time+=dt;
- // movement
- const sp=(keys.ShiftLeft?10:7)*(buffs.speed>0?1.5:1)*(1+save.spd*.05+(perks.spd||0)*.15)*dt;let fx=0,fz=0;
+ // CS:GO-inspired bunny hopping: preserve air momentum and gain a little speed
+ // by timing repeated jumps while holding movement keys.
+ let fx=0,fz=0;
  if(keys.KeyW)fz-=1;if(keys.KeyS)fz+=1;if(keys.KeyA)fx-=1;if(keys.KeyD)fx+=1;
- const l=Math.hypot(fx,fz)||1;fx/=l;fz/=l;
- const s=Math.sin(yaw),c=Math.cos(yaw);P.x+=(fx*c+fz*s)*sp;P.z+=(-fx*s+fz*c)*sp;push(P,.5);
- if(fx||fz)bobT+=dt*10;
- cam.position.set(P.x,1.6+Math.sin(bobT)*.05,P.z);cam.rotation.y=yaw;cam.rotation.x=pitch;
+ const inputLen=Math.hypot(fx,fz)||1;fx/=inputLen;fz/=inputLen;
+ const sn=Math.sin(yaw),cs=Math.cos(yaw),wishX=fx*cs+fz*sn,wishZ=-fx*sn+fz*cs;
+ const baseSpeed=(keys.ShiftLeft?10:7)*(buffs.speed>0?1.5:1)*(1+save.spd*.05+(perks.spd||0)*.15);
+ if(playerY<=0.001){
+   playerY=0;verticalV=0;
+   if(keys.Space){verticalV=7.2;bhopCount++;bhopSpeed=Math.min(15,bhopSpeed+.75);beep(330,.045,'sine',.018)}
+   else if(!fx&&!fz)bhopSpeed=Math.max(baseSpeed,bhopSpeed-dt*7);
+ }else{
+   verticalV-=20*dt;playerY=Math.max(0,playerY+verticalV*dt);
+   if(playerY===0){verticalV=0;bhopSpeed=Math.max(baseSpeed,bhopSpeed*.88)}
+ }
+ const target=fx||fz?Math.max(baseSpeed,bhopSpeed):0;
+ const accel=playerY>0?2.8:12;
+ if(fx||fz){velocityX+=(wishX*target-velocityX)*Math.min(1,accel*dt);velocityZ+=(wishZ*target-velocityZ)*Math.min(1,accel*dt)}
+ else {velocityX*=Math.max(0,1-dt*(playerY>0?.25:9));velocityZ*=Math.max(0,1-dt*(playerY>0?.25:9))}
+ P.x+=velocityX*dt;P.z+=velocityZ*dt;push(P,.5);
+ if(fx||fz)bobT+=dt*(playerY>0?5:10);
+ cam.position.set(P.x,1.6+playerY+Math.sin(bobT)*.035*(playerY===0?1:0),P.z);cam.rotation.y=yaw;cam.rotation.x=pitch;
+ if(knife.visible){knifeSwing=Math.max(0,knifeSwing-dt);knife.rotation.x=knifeSwing?Math.sin((.32-knifeSwing)/.32*Math.PI)*-.9:0;knife.rotation.y=knifeSwing?Math.sin((.32-knifeSwing)/.32*Math.PI)*.35:0}
+
  shake=Math.max(0,shake-dt);cam.position.x+=(R()-.5)*shake*save.shk;cam.position.y+=(R()-.5)*shake*save.shk;
  streakT-=dt;if(streakT<=0)streak=0;
  for(const k in buffs)buffs[k]=Math.max(0,buffs[k]-dt);
  $('gn').textContent=GUNS[cur].n+' '+(relT>0?'reloading':(ammo[cur]??MAG[cur][0])+'/'+MAG[cur][0])+(buffs.speed>0?' ⚡':'')+(buffs.dmg>0?' 💥':'')+(buffs.shield>0?' 🛡':'')+(streak>1?' · x'+streak:'')+' · 💣'+nades+(slowCd<=0?' · Q ready':'');
  // gun
- if(mouseDown&&GUNS[cur].auto)fire();
+ if(mouseDown&&!knife.visible&&GUNS[cur].auto)fire();
  kick=Math.max(0,kick-dt*.6);gun.position.z=-.55+kick;gun.rotation.x=kick*.6;
  const sk=SKINS.find(k=>k.id===save.skin);if(sk&&sk.rb)gunMat.color.setHSL(sk.rb===1?(time*.4)%1:sk.rb===2?.72+Math.sin(time*2)*.08:.05+Math.abs(Math.sin(time*6))*.05,1,.5);
  // waves chase you across the big map
@@ -576,6 +621,7 @@ function renderShop(){const g=$('sg');g.textContent='';$('sco').textContent=save
  const buy=(c,fn)=>{if(save.coins<c){banner('Not enough coins',900);return}save.coins-=c;fn();persist();renderShop();hud()};
  if(tab==='g')GK.forEach(k=>{const G=GUNS[k],own=save.guns[k];g.appendChild(item(G.n,'Dmg '+G.d+' · '+(G.pel>1?G.pel+' pellets · ':'')+(G.auto?'auto':'semi')+(G.pierce?' · pierces':''),G.cost,own,cur===k&&own,()=>own?(cur=k,applyGun(),renderShop()):buy(G.cost,()=>{save.guns[k]=1;cur=k;applyGun()})))});
  if(tab==='s')SKINS.forEach(s=>g.appendChild(item(s.n,s.ex?'Boss room reward':s.rb?'Animated':'Gun skin',s.cost,save.skins[s.id],save.skin===s.id,()=>s.ex&&!save.skins[s.id]?banner('Beat the boss room to unlock',1500):save.skins[s.id]?(save.skin=s.id,applySkin(),persist(),renderShop()):buy(s.cost,()=>{save.skins[s.id]=1;save.skin=s.id;applySkin()}),s.rb?'linear-gradient(90deg,red,orange,yellow,lime,cyan,blue,magenta)':'#'+s.c.toString(16).padStart(6,'0'))));
+ if(tab==='k')KNIVES.forEach(k=>{const own=save.knives[k.id];g.appendChild(item('🔪 '+k.n,'Melee · '+k.damage+' damage · '+(k.id==='classic'?'CS-style starter knife':'CS-style knife skin'),k.cost,own,save.knife===k.id,()=>own?(save.knife=k.id,applyKnife(),persist(),renderShop()):buy(k.cost,()=>{save.knives[k.id]=1;save.knife=k.id;applyKnife()}),'linear-gradient(120deg,#24242c,#dbe4ed,#34343c)'))});
  if(tab==='u'){[['hp','Max Health','+25 max HP',8,250],['dmg','Damage','+15% damage',10,300],['fr','Fire Rate','+6% fire rate',8,350],['spd','Speed','+5% move speed',8,250],['rg','Regeneration','+0.5 HP per second',6,400],['bot','Robot Buddy','Auto-shoots toilets, stronger each level',6,800],['ar','Armor','-4% damage taken',8,300],['cc','Crit Chance','+2% crit chance',10,350],['rs','Quick Reload','-5% reload time',8,300],['gr','Grenade Pouch','+1 starting grenade',5,400],['xg','XP Boost','+8% XP',8,350],['cb','Coin Boost','+5% coins',10,450],['dc','Dash Cooldown','-8% dash cooldown',6,300]].forEach(([k,n,ds,mx,base])=>{const lv=save[k],c=base*(lv+1);
   const d=item(n+' Lv '+lv,ds,c,0,lv>=mx,()=>buy(c,()=>{save[k]++;if(k==='hp'){maxHp=100+save.hp*25}}));if(lv>=mx)d.querySelector('button').textContent='Maxed';g.appendChild(d)})}
 }
@@ -583,15 +629,16 @@ function renderShop(){const g=$('sg');g.textContent='';$('sco').textContent=save
 // ---------- input ----------
 let mouseDown=false;
 addEventListener('keydown',e=>{keys[e.code]=1;
- if(e.code==='KeyR'&&state==='play'&&!paused)reload();
+ if(e.code==='KeyV'&&state==='play'&&!paused){if(knife.visible)useGun();else applyKnife()}
+ if(e.code==='KeyR'&&state==='play'&&!paused&&!knife.visible)reload();
  if(e.code==='KeyG'&&state==='play'&&!paused)throwNade();
  if(e.code==='KeyQ'&&state==='play'&&!paused&&slowCd<=0){slow=4;slowCd=25;banner('BULLET TIME',800);beep(200,.3,'sine',.07)}
- if(e.code==='Space'&&state==='play'&&!paused&&dashT<=0){dashT=2*(1-save.dc*.08);let fx=(keys.KeyD?1:0)-(keys.KeyA?1:0),fz=(keys.KeyS?1:0)-(keys.KeyW?1:0);if(!fx&&!fz)fz=-1;const sn=Math.sin(yaw),cs=Math.cos(yaw);P.x+=(fx*cs+fz*sn)*6;P.z+=(-fx*sn+fz*cs)*6;push(P,.5);beep(500,.1,'sine',.05);qprog('dash')}if(e.code==='KeyE'&&state==='play'&&!paused&&portNear>=0&&!arena)enterRoom(portNear);
+ if(e.code==='KeyC'&&state==='play'&&!paused&&dashT<=0){dashT=2*(1-save.dc*.08);let fx=(keys.KeyD?1:0)-(keys.KeyA?1:0),fz=(keys.KeyS?1:0)-(keys.KeyW?1:0);if(!fx&&!fz)fz=-1;const sn=Math.sin(yaw),cs=Math.cos(yaw);P.x+=(fx*cs+fz*sn)*6;P.z+=(-fx*sn+fz*cs)*6;push(P,.5);beep(500,.1,'sine',.05);qprog('dash')}if(e.code==='KeyE'&&state==='play'&&!paused&&portNear>=0&&!arena)enterRoom(portNear);
  if(e.code==='KeyB'&&(state==='play')){if($('shop').style.display==='flex'){$('shopx').click()}else openShop('pause')}
  if(state==='play'&&!paused){const n=e.key==='0'?10:e.key==='-'?11:+e.key;if(n>=1&&n<=11&&save.guns[GK[n-1]]){cur=GK[n-1];applyGun()}}});
 addEventListener('wheel',e=>{if(state!=='play'||paused)return;const o=GK.filter(k=>save.guns[k]),i=o.indexOf(cur);cur=o[(i+(e.deltaY>0?1:-1)+o.length)%o.length];applyGun()});
 addEventListener('keyup',e=>keys[e.code]=0);
-addEventListener('mousedown',e=>{if(e.button===0){mouseDown=true;if(state==='play'&&!paused&&!document.pointerLockElement)lock();if(state==='play'&&!paused&&document.pointerLockElement){fire()}}});
+addEventListener('mousedown',e=>{if(e.button===0){mouseDown=true;if(state==='play'&&!paused&&!document.pointerLockElement)lock();if(state==='play'&&!paused&&document.pointerLockElement){if(knife.visible)knifeAttack();else fire()}}});
 addEventListener('mouseup',()=>mouseDown=false);
 addEventListener('mousemove',e=>{if(document.pointerLockElement===ren.domElement&&state==='play'&&!paused){yaw-=e.movementX*.0022*save.sens;pitch=Math.max(-1.4,Math.min(1.4,pitch-(save.inv?-1:1)*e.movementY*.0022*save.sens))}});
 document.addEventListener('pointerlockchange',()=>{if(!document.pointerLockElement&&state==='play'&&!paused&&$('shop').style.display!=='flex'){paused=true;show('pause')}});
